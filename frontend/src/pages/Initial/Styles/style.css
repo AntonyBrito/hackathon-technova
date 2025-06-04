@@ -1,0 +1,391 @@
+/* Estilos Globais Aplicados ao Wrapper da Página Específica */
+.app-wrapper-monochrome {
+  width: 100%; /* Ocupa toda a largura disponível */
+  box-sizing: border-box;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  background-color: #ffffff; /* Fundo principal branco */
+  color: #1f1f1f; /* Texto principal quase preto */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Tipografia */
+.app-wrapper-monochrome h2,
+.app-wrapper-monochrome h3,
+.app-wrapper-monochrome h4 { /* h4 foi removido com a seção 'Our Approach' mas pode ser útil se adicionar novas seções */
+  text-transform: uppercase;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: #000000;
+}
+.app-wrapper-monochrome h2 { font-size: 2.2rem; margin: 0 0 10px 0; } /* Título da seção de destaque (ex-New Collection) */
+.app-wrapper-monochrome h3 { font-size: 1.5rem; margin: 0; } /* Títulos de Novidades e Navegue por Marcas */
+
+
+/* Botões */
+.app-wrapper-monochrome .button-mono {
+  text-transform: uppercase;
+  font-weight: 600;
+  padding: 10px 20px;
+  border: 1px solid #1f1f1f;
+  background-color: transparent;
+  color: #1f1f1f;
+  cursor: pointer;
+  font-size: 0.8rem;
+  letter-spacing: 0.05em;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+.app-wrapper-monochrome .button-mono:hover {
+  background-color: #1f1f1f;
+  color: #ffffff;
+}
+.app-wrapper-monochrome .primary-button-mono {
+  background-color: #1f1f1f;
+  color: #ffffff;
+  padding: 12px 25px;
+}
+.app-wrapper-monochrome .primary-button-mono:hover {
+  background-color: #444444;
+  border-color: #444444;
+}
+.app-wrapper-monochrome .secondary-button-mono {
+  padding: 8px 30px;
+  font-size: 0.75rem;
+}
+
+/* Navegação e Setas */
+.app-wrapper-monochrome .nav-arrows-mono {
+  display: flex;
+  align-items: center;
+}
+.app-wrapper-monochrome .nav-arrows-mono span {
+  padding: 5px 10px;
+  border: 1px solid #cccccc;
+  margin-left: 10px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  user-select: none; /* Para não selecionar o texto da seta ao clicar */
+}
+.app-wrapper-monochrome .nav-arrows-mono span:hover:not(.disabled-arrow) {
+  background-color: #f0f0f0;
+}
+.app-wrapper-monochrome .small-arrows-mono span {
+  font-size: 0.8rem;
+  padding: 3px 6px;
+}
+.app-wrapper-monochrome .nav-arrows-mono span.disabled-arrow {
+  opacity: 0.4;
+  cursor: not-allowed;
+  background-color: #f8f8f8;
+}
+.app-wrapper-monochrome .nav-arrows-mono span.disabled-arrow:hover {
+  background-color: #f8f8f8;
+}
+
+
+/* Estilo para o container da imagem do produto e a imagem em si */
+.app-wrapper-monochrome .product-image-container {
+  width: 100%;
+  position: relative;
+  background-color: #f0f0f0; /* Cor de fundo enquanto a imagem carrega ou se falhar */
+  overflow: hidden;
+  /* Para manter uma proporção visual consistente, mesmo que as imagens variem: */
+  aspect-ratio: 4 / 3; /* Ou outra proporção que preferir para os cards */
+}
+
+.app-wrapper-monochrome .product-image-container img {
+  display: block;
+  width: 100%;
+  height: 100%; /* Faz a imagem preencher o container */
+  object-fit: cover; /* ou 'contain' dependendo do efeito desejado */
+  /* 'cover' vai preencher e cortar, 'contain' vai mostrar tudo e pode deixar espaços */
+}
+
+.app-wrapper-monochrome .product-image-wrapper {
+  margin-bottom: 15px;
+  border-radius: 4px;
+  overflow: hidden;
+  border: 1px solid #d0d0d0; /* Borda sutil ao redor da imagem */
+}
+
+
+/* Header */
+.app-wrapper-monochrome .header-mono {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 40px;
+  border-bottom: 1px solid #e0e0e0;
+  background-color: #ffffff;
+}
+.app-wrapper-monochrome .main-nav-mono a {
+  margin-right: 25px;
+  text-decoration: none;
+  color: #555555;
+  font-size: 0.8rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.app-wrapper-monochrome .main-nav-mono a:hover { color: #000000; }
+.app-wrapper-monochrome .central-logo-mono { /* Logo "TechNova" */
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: #000000;
+}
+.app-wrapper-monochrome .header-icons-mono {
+  display: flex;
+  align-items: center;
+  font-size: 0.8rem;
+  font-weight: 500;
+  text-transform: uppercase;
+}
+.app-wrapper-monochrome .header-icons-mono span {
+  margin-left: 20px;
+  cursor: pointer;
+  color: #555555;
+}
+.app-wrapper-monochrome .header-icons-mono span:hover { color: #000000; }
+.app-wrapper-monochrome .header-icons-mono span:first-child { font-size: 1rem; }
+
+/* Seção Genérica */
+.app-wrapper-monochrome .section-mono {
+  padding: 50px 40px; /* Aumentei um pouco o padding vertical */
+  border-bottom: 1px solid #e0e0e0;
+}
+.app-wrapper-monochrome .section-mono:last-of-type {
+  border-bottom: none;
+}
+
+/* Produtos em Destaque (ex-New Collection) */
+.app-wrapper-monochrome .new-collection-mono { /* Reutilizando a classe para layout */
+  display: grid;
+  grid-template-columns: 1fr 1.5fr;
+  gap: 40px;
+  align-items: center; /* Centraliza verticalmente se o texto for menor */
+  padding-top: 60px;
+  padding-bottom: 60px;
+}
+.app-wrapper-monochrome .new-collection-text h2 { /* Ajuste específico para o título da seção de destaque */
+    font-size: 2.5rem; /* Um pouco menor que o original de moda */
+}
+.app-wrapper-monochrome .collection-description {
+  font-size: 0.9rem;
+  color: #555555;
+  line-height: 1.6;
+  margin: 15px 0 30px 0; /* Adiciona margem superior */
+  max-width: 400px;
+}
+.app-wrapper-monochrome .collection-actions {
+  display: flex;
+  align-items: center;
+}
+.app-wrapper-monochrome .new-collection-products-mono {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+/* Novidades (ex-New This Week) */
+.app-wrapper-monochrome .section-header-mono {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px; /* Mais espaço abaixo do header da seção */
+}
+.app-wrapper-monochrome .badge-mono {
+  background-color: #000000;
+  color: #ffffff;
+  padding: 4px 8px; /* Um pouco maior */
+  font-size: 0.7rem;
+  font-weight: bold;
+  margin-left: 10px;
+  border-radius: 3px;
+  vertical-align: middle;
+}
+.app-wrapper-monochrome .horizontal-product-grid-mono {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+/* Estilos para ProductCard e seus tamanhos */
+.app-wrapper-monochrome .product-card {
+  background-color: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  padding: 15px; /* Padding interno do card */
+  text-align: center;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* Para alinhar o conteúdo verticalmente */
+  box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+}
+.app-wrapper-monochrome .product-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0,0,0,0.08);
+}
+
+.app-wrapper-monochrome .product-name {
+  font-size: 0.9rem;
+  margin-top: 12px;
+  margin-bottom: 6px;
+  font-weight: 600; /* Nome mais destacado */
+  color: #1f1f1f;
+  line-height: 1.3;
+  min-height: calc(0.9rem * 1.3 * 2); /* Espaço para aprox. 2 linhas */
+}
+.app-wrapper-monochrome .product-price {
+  font-size: 1rem;
+  font-weight: 700; /* Preço bem destacado */
+  color: #000000; /* Preto para o preço */
+  margin-bottom: 10px;
+}
+
+.app-wrapper-monochrome .product-card-small .product-name {
+  font-size: 0.8rem;
+  margin-top: 10px;
+  margin-bottom: 5px;
+  font-weight: 500;
+  min-height: calc(0.8rem * 1.3 * 2);
+}
+.app-wrapper-monochrome .product-card-small .product-price {
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+
+/* Navegue por Marcas (ex-XIV Collections) */
+.app-wrapper-monochrome .collection-filters-mono { /* Reutilizando para filtros de marca */
+  display: flex;
+  align-items: center;
+  gap: 10px; /* Menor gap */
+  flex-wrap: wrap; /* Permite que os filtros quebrem linha se necessário */
+}
+.app-wrapper-monochrome .collection-filters-mono a {
+  font-size: 0.75rem; /* Menor para os filtros */
+  text-decoration: none;
+  color: #555555;
+  text-transform: uppercase;
+  font-weight: 500;
+  padding: 6px 12px; /* Padding nos links de filtro */
+  border: 1px solid transparent; /* Para transição suave */
+  border-radius: 4px;
+  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+.app-wrapper-monochrome .collection-filters-mono a.active-filter-mono,
+.app-wrapper-monochrome .collection-filters-mono a:hover {
+  color: #ffffff;
+  background-color: #1f1f1f;
+  border-color: #1f1f1f;
+}
+.app-wrapper-monochrome .main-product-grid-mono { /* Grid principal de produtos por marca */
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+.app-wrapper-monochrome .load-more-container-mono {
+  text-align: center;
+  margin-top: 30px;
+}
+
+/* Rodapé */
+.app-wrapper-monochrome .footer-mono {
+  padding: 50px 40px 30px 40px;
+  background-color: #f8f8f8;
+  text-align: center;
+  border-top: 1px solid #e0e0e0; /* Adiciona uma borda no topo do footer */
+}
+.app-wrapper-monochrome .footer-links-mono {
+  margin-bottom: 30px; /* Menos margem */
+}
+.app-wrapper-monochrome .footer-links-mono a {
+  margin: 0 12px; /* Menos margem entre links */
+  text-decoration: none;
+  color: #555555;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+.app-wrapper-monochrome .footer-links-mono a:hover { color: #000000; }
+.app-wrapper-monochrome .footer-logo-mono { /* Logo "TechNova" no rodapé */
+  font-size: 1.8rem; /* Menor que o logo XIV QR original */
+  font-weight: 700;
+  color: #000000;
+  margin-bottom: 25px;
+}
+.app-wrapper-monochrome .footer-bottom-text-mono p {
+  font-size: 0.7rem;
+  color: #757575;
+  text-transform: uppercase;
+  margin: 5px 0 0 0;
+  letter-spacing: 0.05em;
+}
+
+/* Responsividade (Básica) */
+@media (max-width: 1200px) {
+  .app-wrapper-monochrome .new-collection-mono {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+  .app-wrapper-monochrome .new-collection-text {
+    margin: 0 auto 30px auto;
+    align-items: center; /* Centraliza o conteúdo do texto */
+    display: flex;
+    flex-direction: column;
+  }
+  .app-wrapper-monochrome .collection-actions {
+    justify-content: center;
+  }
+  .app-wrapper-monochrome .new-collection-products-mono { grid-template-columns: 1fr 1fr; max-width: 620px; margin: 0 auto;} /* Ajuste para 2 produtos */
+
+  .app-wrapper-monochrome .horizontal-product-grid-mono { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));}
+  .app-wrapper-monochrome .main-product-grid-mono { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));} /* Ajuste para os cards da TechNova */
+}
+
+@media (max-width: 768px) {
+  .app-wrapper-monochrome .header-mono { flex-direction: column; gap: 15px; padding: 15px 20px;}
+  .app-wrapper-monochrome .main-nav-mono { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;}
+  .app-wrapper-monochrome .main-nav-mono a { margin: 0 8px;}
+  .app-wrapper-monochrome .section-mono { padding: 30px 20px; } /* Padding ajustado */
+  .app-wrapper-monochrome h2 { font-size: 1.8rem; } /* Títulos menores */
+  .app-wrapper-monochrome h3 { font-size: 1.3rem; }
+  .app-wrapper-monochrome .section-header-mono { flex-direction: column; gap: 15px; align-items: center; text-align: center;} /* Centraliza header da seção */
+  .app-wrapper-monochrome .collection-filters-mono { justify-content: center; }
+
+  .app-wrapper-monochrome .new-collection-products-mono { grid-template-columns: 1fr; max-width: 320px; } /* Um produto por linha em telas pequenas */
+  .app-wrapper-monochrome .horizontal-product-grid-mono,
+  .app-wrapper-monochrome .main-product-grid-mono {
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); /* Cards menores e mais flexíveis */
+    gap: 15px;
+  }
+  .app-wrapper-monochrome .footer-mono { padding: 30px 20px;}
+  .app-wrapper-monochrome .footer-links-mono { display: flex; flex-direction: column; gap: 8px; }
+  .app-wrapper-monochrome .footer-links-mono a { margin: 0; }
+}
+
+@media (max-width: 480px) {
+    .app-wrapper-monochrome .new-collection-mono {
+        padding-top: 40px;
+        padding-bottom: 40px;
+    }
+    .app-wrapper-monochrome .new-collection-text h2 {
+        font-size: 2rem;
+    }
+     .app-wrapper-monochrome .horizontal-product-grid-mono {
+        grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); /* Ainda menores para telas bem pequenas */
+    }
+    .app-wrapper-monochrome .product-card, .app-wrapper-monochrome .product-card-small {
+        padding: 10px;
+    }
+    .app-wrapper-monochrome .product-name {
+        font-size: 0.8rem;
+        min-height: calc(0.8rem * 1.3 * 2);
+    }
+    .app-wrapper-monochrome .product-price {
+        font-size: 0.9rem;
+    }
+}
