@@ -1,5 +1,4 @@
 import Home from "../pages/Initial";
-import ListProduct from "../pages/ListProduct";
 import Product from "../pages/Product";
 import Card from "../pages/Card";
 import Checkout from "../pages/Checkout";
@@ -10,11 +9,6 @@ export const routes = [
     path: "/",
     name: "Home",
     element: <Home />,
-  },
-  {
-    path: "/ListProduct",
-    name: "ListProduct",
-    element: <ListProduct />,
   },
   {
     path: "/Product",
@@ -35,5 +29,5 @@ export const routes = [
     path: "/CadastroProduto",
     name: "CadastroProduto",
     element: <CadastroProduto />,
-  }
+  },
 ];
