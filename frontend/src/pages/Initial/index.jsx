@@ -154,6 +154,40 @@ function App() {
     );
   }
 
+  function smoothScroll(target, duration = 600) {
+  const start = window.pageYOffset;
+  const end = target.getBoundingClientRect().top + start;
+  const distance = end - start;
+  let startTime = null;
+
+  function animation(currentTime) {
+    if (!startTime) startTime = currentTime;
+    const timeElapsed = currentTime - startTime;
+    const run = ease(timeElapsed, start, distance, duration);
+    window.scrollTo(0, run);
+    if (timeElapsed < duration) {
+      requestAnimationFrame(animation);
+    }
+  }
+
+  function ease(t, b, c, d) {
+    t /= d / 2;
+    if (t < 1) return c / 2 * t * t + b;
+    t--;
+    return -c / 2 * (t * (t - 2) - 1) + b;
+  }
+
+  requestAnimationFrame(animation);
+}
+
+const handleScroll = () => {
+  const element = document.getElementById('viewAll');
+  if (element) {
+    element.scrollIntoView({ behavior: 'smooth' });
+  }
+};
+
+
   return (
     <div className="app-wrapper-monochrome">
       {/* ... (o JSX do layout principal da loja permanece o mesmo) ... */}
@@ -210,7 +244,8 @@ function App() {
             pelos nossos clientes.
           </p>
           <div className="collection-actions">
-            <button className="button-mono primary-button-mono">
+            <button onClick={handleScroll}
+ className="button-mono primary-button-mono">
               VER TODOS
             </button>
             <div className="nav-arrows-mono">
@@ -283,7 +318,7 @@ function App() {
         </div>
       </section>
 
-      <section className="section-mono xiv-collections-mono">
+      <section id={'viewAll'} className="section-mono xiv-collections-mono">
         <div className="section-header-mono">
           <h3>Navegue por Marcas</h3>
           <div className="collection-filters-mono">
