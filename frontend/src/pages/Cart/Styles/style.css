@@ -1,0 +1,306 @@
+/* src/pages/Cart.css */
+
+/* Container Principal do Carrinho */
+.cart-view-mono {
+  padding: 25px 20px; /* Padding interno */
+  max-width: 960px; /* Largura máxima do conteúdo do carrinho */
+  margin: 30px auto; /* Centraliza e adiciona margem superior/inferior */
+  background-color: #ffffff; /* Fundo branco */
+  border: 1px solid #e0e0e0; /* Borda sutil, como outros elementos */
+  border-radius: 8px; /* Bordas arredondadas */
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.07); /* Sombra suave para destaque */
+}
+
+/* Cabeçalho do Carrinho */
+.cart-header-mono {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #e0e0e0; /* Linha separadora */
+  padding-bottom: 20px;
+  margin-bottom: 25px;
+}
+
+.cart-header-mono h2 {
+  font-size: 1.8rem; /* Tamanho do título "Seu Carrinho" */
+  color: #1f1f1f; /* Cor escura consistente */
+  margin: 0;
+  text-transform: uppercase; /* Mantendo padrão de títulos */
+  letter-spacing: 0.03em;
+}
+
+.close-cart-button-mono {
+  /* Botão para fechar o carrinho (X) */
+  font-size: 1.1rem;
+  padding: 8px 15px;
+  background-color: transparent;
+  color: #555; /* Cor sutil */
+  border: 1px solid #d0d0d0;
+  /* Herda o estilo base .button-mono, mas pode ter ajustes */
+}
+.close-cart-button-mono:hover {
+  background-color: #f0f0f0;
+  color: #1f1f1f;
+}
+
+/* Mensagem de Carrinho Vazio */
+.empty-cart-message-mono {
+  text-align: center;
+  font-size: 1.15rem;
+  color: #555555;
+  padding: 50px 20px;
+  line-height: 1.6;
+}
+.empty-cart-message-mono + .button-mono.primary-button-mono {
+  /* Estilo para o botão "Continuar Comprando" quando o carrinho está vazio */
+  display: block;
+  width: fit-content;
+  margin: 0 auto 20px auto; /* Centraliza o botão */
+}
+
+/* Lista de Itens do Carrinho */
+.cart-items-list-mono {
+  margin-bottom: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px; /* Espaço entre os itens do carrinho */
+}
+
+/* Cada Item Individual no Carrinho */
+.cart-item-mono {
+  display: grid;
+  /* Imagem (auto), Detalhes (1fr), Quantidade (auto), Subtotal (auto), Remover (auto) */
+  grid-template-columns: 100px 1fr auto auto auto;
+  align-items: center;
+  gap: 20px; /* Espaço entre as colunas do item */
+  padding: 15px;
+  border: 1px solid #e8e8e8; /* Borda para cada item */
+  border-radius: 6px;
+  background-color: #fdfdfd; /* Fundo levemente diferente para cada item */
+}
+
+.cart-item-image-mono {
+  width: 100px; /* Tamanho da imagem do produto no carrinho */
+  height: 100px;
+  object-fit: contain; /* 'contain' para ver a imagem inteira */
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  background-color: #f9f9f9; /* Fundo placeholder para imagem */
+}
+
+.cart-item-details-mono {
+  display: flex;
+  flex-direction: column;
+  gap: 6px; /* Espaço entre nome e preço do item */
+}
+
+.cart-item-name-mono {
+  font-size: 1rem;
+  font-weight: 600; /* Nome do produto destacado */
+  color: #222222;
+  margin: 0;
+  line-height: 1.3;
+}
+
+.cart-item-price-mono {
+  /* Preço unitário */
+  font-size: 0.9rem;
+  color: #555555;
+  margin: 0;
+}
+
+/* Seletor de Quantidade no Item do Carrinho */
+.cart-item-quantity-mono {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.cart-item-quantity-mono label {
+  font-size: 0.85rem;
+  color: #444444;
+  font-weight: 500;
+}
+
+.quantity-input-cart-mono {
+  /* Input de quantidade no carrinho */
+  width: 65px;
+  padding: 7px 8px;
+  text-align: center;
+  border: 1px solid #cccccc;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  /* Herda a fonte global */
+}
+.quantity-input-cart-mono:focus {
+  border-color: #1f1f1f;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(31, 31, 31, 0.1);
+}
+
+.cart-item-subtotal-mono {
+  /* Preço total para aquele item (preço * qtd) */
+  font-size: 1rem;
+  font-weight: 600; /* Subtotal destacado */
+  color: #1f1f1f;
+  min-width: 110px; /* Para alinhar melhor os subtotais */
+  text-align: right;
+}
+
+.remove-item-button-mono {
+  /* Botão "Remover" */
+  font-size: 0.8rem;
+  padding: 6px 12px;
+  /* Reutiliza .button-mono para a base, mas pode ter cores específicas */
+  background-color: #fef2f2; /* Fundo vermelho claro */
+  color: #ef4444; /* Texto vermelho */
+  border: 1px solid #fecaca; /* Borda vermelha clara */
+  text-transform: uppercase;
+  font-weight: 500;
+}
+.remove-item-button-mono:hover {
+  background-color: #ef4444; /* Vermelho mais forte no hover */
+  color: #ffffff;
+  border-color: #ef4444;
+}
+
+/* Sumário do Carrinho (Total, Finalizar Compra) */
+.cart-summary-mono {
+  border-top: 2px solid #1f1f1f; /* Linha mais grossa para separar o sumário */
+  padding-top: 25px;
+  margin-top: 20px;
+  text-align: right;
+}
+
+.cart-summary-mono h3 {
+  /* "Total: R$ XX,XX" */
+  font-size: 1.6rem;
+  margin-bottom: 25px;
+  color: #1f1f1f;
+  font-weight: 700;
+}
+
+.cart-summary-mono .button-mono {
+  /* Ajustes nos botões do sumário */
+  margin-left: 15px; /* Espaço entre os botões */
+}
+.cart-summary-mono .checkout-button-mono {
+  /* Botão "Finalizar Compra" */
+  padding: 12px 30px; /* Botão de checkout um pouco maior */
+  font-size: 1rem;
+  /* Reutiliza .primary-button-mono */
+}
+.cart-summary-mono .secondary-button-mono {
+  /* Botão "Continuar Comprando" no sumário */
+  padding: 10px 25px;
+  /* Reutiliza .secondary-button-mono */
+}
+
+/* Responsividade para o Carrinho */
+@media (max-width: 768px) {
+  .cart-view-mono {
+    margin: 20px 10px; /* Menos margem lateral em telas pequenas */
+    padding: 20px 15px;
+  }
+  .cart-header-mono h2 {
+    font-size: 1.5rem;
+  }
+
+  .cart-item-mono {
+    /* Muda o layout do grid para melhor visualização em mobile */
+    grid-template-columns: 80px 1fr; /* Imagem na primeira coluna, resto na segunda */
+    grid-template-rows: auto auto auto; /* Linhas para nome/preço, qtd/subtotal, remover */
+    gap: 10px 15px; /* Ajusta gaps */
+    padding: 12px;
+  }
+
+  .cart-item-image-mono {
+    width: 80px;
+    height: 80px;
+    grid-row: 1 / span 3; /* Imagem ocupa todas as 3 linhas da sua coluna */
+  }
+
+  .cart-item-details-mono {
+    grid-column: 2 / 3; /* Ocupa a segunda coluna */
+    grid-row: 1 / 2; /* Primeira linha da segunda coluna */
+  }
+
+  .cart-item-quantity-mono {
+    grid-column: 2 / 3;
+    grid-row: 2 / 3; /* Segunda linha da segunda coluna */
+    justify-content: flex-start; /* Alinha à esquerda */
+    gap: 10px;
+  }
+  .quantity-input-cart-mono {
+    width: 55px;
+  }
+
+  .cart-item-subtotal-mono {
+    grid-column: 2 / 3;
+    grid-row: 2 / 3; /* Também na segunda linha, mas alinhado à direita */
+    text-align: right;
+    margin-left: auto; /* Empurra para a direita, ao lado da quantidade */
+    font-size: 0.95rem;
+    min-width: auto;
+  }
+
+  .cart-item-mono .remove-item-button-mono {
+    grid-column: 2 / 3;
+    grid-row: 3 / 4; /* Terceira linha da segunda coluna */
+    width: fit-content; /* Botão de remover com largura do conteúdo */
+    margin-top: 5px;
+    padding: 5px 10px;
+    font-size: 0.75rem;
+  }
+
+  .cart-summary-mono {
+    text-align: center; /* Centraliza o sumário em mobile */
+  }
+  .cart-summary-mono h3 {
+    font-size: 1.4rem;
+  }
+  .cart-summary-mono .button-mono,
+  .cart-summary-mono .checkout-button-mono,
+  .cart-summary-mono .secondary-button-mono {
+    width: 100%; /* Botões ocupam largura total */
+    margin-left: 0;
+    margin-top: 12px; /* Espaço entre botões empilhados */
+  }
+  .cart-summary-mono .button-mono:first-of-type {
+    /* Evita margem no primeiro botão se for o único */
+    margin-top: 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .cart-header-mono h2 {
+    font-size: 1.3rem;
+  }
+  .cart-item-image-mono {
+    width: 60px;
+    height: 60px;
+  }
+  .cart-item-mono {
+    grid-template-columns: 60px 1fr; /* Imagem ainda menor */
+    gap: 8px 12px;
+  }
+  .cart-item-name-mono {
+    font-size: 0.9rem;
+  }
+  .cart-item-price-mono {
+    font-size: 0.8rem;
+  }
+  .cart-item-quantity-mono label {
+    font-size: 0.8rem;
+  }
+  .quantity-input-cart-mono {
+    width: 50px;
+    padding: 5px;
+    font-size: 0.85rem;
+  }
+  .cart-item-subtotal-mono {
+    font-size: 0.9rem;
+  }
+  .cart-summary-mono h3 {
+    font-size: 1.25rem;
+  }
+}

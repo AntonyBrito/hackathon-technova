@@ -1,8 +1,6 @@
 import Home from "../pages/Initial";
-import Product from "../pages/Product";
-import Card from "../pages/Card";
-import Checkout from "../pages/Checkout";
-import CadastroProduto from "../pages/Cadastro_Produtos";
+import ProductRegistration from "../pages/ProductRegistration";
+import ProductEditPage from "../pages/ProductEditPage";
 
 export const routes = [
   {
@@ -11,23 +9,13 @@ export const routes = [
     element: <Home />,
   },
   {
-    path: "/Product",
-    name: "Product",
-    element: <Product />,
+    path: "/ProductEditPage",
+    name: "ProductEditPage",
+    element: <ProductEditPage />,
   },
   {
-    path: "/Card",
-    name: "Card",
-    element: <Card />,
-  },
-  {
-    path: "/Checkout",
-    name: "Checkout",
-    element: <Checkout />,
-  },
-  {
-    path: "/CadastroProduto",
-    name: "CadastroProduto",
-    element: <CadastroProduto />,
+    path: "/ProductRegistration",
+    name: "ProductRegistration",
+    element: <ProductRegistration />,
   },
 ];

@@ -1,0 +1,222 @@
+/* src/pages/ProductManagementList.css */
+.product-management-page-mono {
+  padding: 30px 25px;
+  max-width: 1100px; /* Pode ser um pouco mais largo para a lista */
+  margin: 40px auto;
+  background-color: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+  color: #1f1f1f;
+}
+
+.management-header-mono {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #e0e0e0;
+  padding-bottom: 20px;
+  margin-bottom: 30px;
+}
+
+.management-header-mono h2 {
+  font-size: 1.8rem; /* Ajustado para consistência */
+  color: #000000;
+  margin: 0;
+  text-transform: uppercase;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+}
+
+.empty-list-message-mono {
+  text-align: center;
+  font-size: 1.1rem;
+  color: #555555;
+  padding: 40px 0;
+}
+.empty-list-message-mono + .button-mono.primary-button-mono {
+  display: block;
+  width: fit-content;
+  margin: 0 auto 20px auto;
+}
+
+.product-list-header-titles-mono {
+  display: grid;
+  grid-template-columns: 80px 2fr 1fr 1fr 1.5fr; /* Colunas: Img, Nome, Preço, Estoque, Ações */
+  gap: 15px;
+  padding: 10px 15px;
+  font-weight: 600;
+  color: #4a4a4a;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  border-bottom: 2px solid #1f1f1f; /* Linha de cabeçalho mais forte */
+  margin-bottom: 10px;
+}
+.product-list-header-titles-mono span:nth-child(3), /* Preço */
+.product-list-header-titles-mono span:nth-child(4) {
+  /* Estoque */
+  text-align: right;
+}
+.product-list-header-titles-mono span:last-child {
+  /* Ações */
+  text-align: center;
+}
+
+.product-list-manageable-mono {
+  display: flex;
+  flex-direction: column;
+  gap: 1px; /* Cria linhas finas entre os itens se eles tiverem background */
+  background-color: #e0e0e0; /* Cor para as linhas finas */
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  overflow: hidden; /* Para o border-radius funcionar com os itens internos */
+}
+
+.product-item-manageable-mono {
+  display: grid;
+  grid-template-columns: 80px 2fr 1fr 1fr 1.5fr; /* Alinha com os títulos */
+  align-items: center;
+  gap: 15px;
+  padding: 12px 15px;
+  background-color: #ffffff; /* Fundo de cada item */
+}
+/* .product-item-manageable-mono:not(:last-child) { */
+/* border-bottom: 1px solid #f0f0f0; */ /* Linha separadora mais sutil */
+/* } */
+
+.product-item-image-manageable-mono {
+  width: 60px;
+  height: 60px;
+  object-fit: contain;
+  border: 1px solid #eaeaea;
+  border-radius: 4px;
+  background-color: #f9f9f9;
+}
+
+.product-item-name-manageable-mono {
+  font-weight: 500;
+  font-size: 0.95rem;
+  color: #1f1f1f;
+}
+.product-item-name-manageable-mono small {
+  display: block;
+  font-size: 0.75rem;
+  color: #777;
+  margin-top: 2px;
+}
+
+.product-item-price-manageable-mono,
+.product-item-stock-manageable-mono {
+  font-size: 0.9rem;
+  color: #333;
+  text-align: right;
+}
+
+.product-item-actions-manageable-mono {
+  display: flex;
+  justify-content: center; /* Centraliza os botões na célula */
+  gap: 10px;
+}
+
+.edit-action-button-list-mono,
+.delete-action-button-list-mono {
+  padding: 6px 12px; /* Botões menores na lista */
+  font-size: 0.75rem;
+  min-width: 70px; /* Largura mínima para os botões */
+}
+/* .edit-action-button-list-mono usa .light-button-mono global */
+/* .delete-action-button-list-mono usa .danger-button-mono global */
+
+.management-footer-actions-mono {
+  margin-top: 30px;
+  padding-top: 20px;
+  border-top: 1px solid #e0e0e0;
+  text-align: right;
+}
+.management-footer-actions-mono .primary-button-mono {
+  font-size: 0.9rem;
+}
+
+/* Responsividade para a Lista de Gerenciamento */
+@media (max-width: 900px) {
+  .product-list-header-titles-mono,
+  .product-item-manageable-mono {
+    /* Ajuste para telas menores: talvez menos colunas ou empilhar */
+    grid-template-columns: 60px 1.5fr 1fr 1fr; /* Remove coluna de Ações separada, junta com info */
+    gap: 10px;
+  }
+  .product-list-header-titles-mono span:last-child {
+    display: none;
+  } /* Esconde título "Ações" */
+
+  .product-item-info-manageable-mono {
+    /* Agrupa nome, preço, estoque se necessário */
+    /* Você pode precisar reestruturar o JSX do item para agrupar melhor */
+  }
+  .product-item-actions-manageable-mono {
+    grid-column: 1 / -1; /* Ocupa todas as colunas */
+    grid-row: 2; /* Fica abaixo das informações do produto */
+    justify-content: flex-start; /* Alinha botões à esquerda */
+    padding-top: 10px;
+    border-top: 1px dashed #eee; /* Linha separadora para ações */
+    margin-top: 10px;
+  }
+  .product-item-manageable-mono {
+    /* Para acomodar as ações abaixo */
+    grid-template-rows: auto auto;
+  }
+  .product-item-image-manageable-mono {
+    grid-row: 1 / span 1;
+  }
+  .product-item-name-manageable-mono {
+    grid-column: 2 / -1;
+  }
+  .product-item-price-manageable-mono {
+    display: none; /* Exemplo: esconde para simplificar */
+  }
+  .product-item-stock-manageable-mono {
+    display: none; /* Exemplo: esconde para simplificar */
+  }
+}
+
+@media (max-width: 600px) {
+  .management-header-mono {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+  }
+  .management-header-mono .button-mono {
+    align-self: flex-start;
+  }
+  .product-list-header-titles-mono {
+    display: none; /* Esconde cabeçalho da tabela em telas muito pequenas */
+  }
+  .product-item-manageable-mono {
+    grid-template-columns: 60px 1fr; /* Imagem e o resto */
+    padding: 10px;
+  }
+  .product-item-image-manageable-mono {
+    grid-row: 1 / span 1;
+    margin-bottom: 10px;
+  }
+  .product-item-name-manageable-mono,
+  .product-item-price-manageable-mono, /* Reaparecem se não escondidos antes */
+  .product-item-stock-manageable-mono {
+    /* Reaparecem se não escondidos antes */
+    grid-column: 1 / -1; /* Ocupam toda a largura abaixo da imagem */
+    text-align: left;
+    margin-bottom: 5px;
+    display: block; /* Garante que apareçam */
+  }
+  .product-item-actions-manageable-mono {
+    grid-column: 1 / -1;
+    padding-top: 10px;
+    margin-top: 10px;
+    justify-content: space-around; /* Botões se espaçam */
+  }
+  .edit-action-button-list-mono,
+  .delete-action-button-list-mono {
+    flex-grow: 1; /* Faz botões ocuparem espaço disponível */
+    margin: 0 5px;
+  }
+}

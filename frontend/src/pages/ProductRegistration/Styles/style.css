@@ -1,0 +1,355 @@
+/* Conteúdo para o arquivo CSS importado por ProductRegistrationPage.js */
+/* (Ex: ./Styles/style.css ou renomeado para ProductRegistrationPage.css) */
+
+/* ==========================================================================
+   Estilos da Página de Cadastro de Produto - TechNova
+   ========================================================================== */
+
+/* Container Principal da Página de Cadastro */
+.product-registration-page-mono {
+  padding: 30px 25px;
+  max-width: 850px;
+  margin: 40px auto;
+  background-color: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  color: #1f1f1f;
+}
+
+/* Cabeçalho da Página de Cadastro */
+.registration-header-mono {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #e0e0e0;
+  padding-bottom: 20px;
+  margin-bottom: 30px;
+}
+
+.registration-header-mono h2 {
+  font-size: 2rem;
+  color: #000000;
+  margin: 0;
+  text-transform: uppercase;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+}
+
+/* Estilos Gerais do Formulário */
+.product-form-mono .form-group-mono {
+  margin-bottom: 22px;
+}
+
+.product-form-mono label {
+  display: block;
+  font-size: 0.9rem;
+  color: #333333;
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+
+.product-form-mono .required-star {
+  color: #d9534f;
+  margin-left: 3px;
+  font-weight: bold;
+}
+
+/* Estilo para Inputs e Textarea */
+.product-form-mono input[type="text"],
+.product-form-mono input[type="number"],
+.product-form-mono input[type="url"],
+.product-form-mono textarea {
+  width: 100%;
+  padding: 12px 15px;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: #1f1f1f;
+  background-color: #ffffff;
+  border: 1px solid #d0d0d0;
+  border-radius: 6px;
+  box-sizing: border-box;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.product-form-mono input[type="text"]:focus,
+.product-form-mono input[type="number"]:focus,
+.product-form-mono input[type="url"]:focus,
+.product-form-mono textarea:focus {
+  border-color: #1f1f1f;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(31, 31, 31, 0.15);
+}
+
+.product-form-mono input::placeholder,
+.product-form-mono textarea::placeholder {
+  color: #999999;
+  opacity: 1;
+}
+
+.product-form-mono textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+/* Campos em Linha */
+.form-row-mono {
+  display: flex;
+  gap: 25px;
+  margin-bottom: 22px;
+}
+.form-row-mono .form-group-mono {
+  flex: 1;
+  margin-bottom: 0;
+}
+
+/* Grupo de URLs de Imagem */
+.image-urls-group-mono > label {
+  margin-bottom: 12px;
+}
+.image-urls-group-mono .image-url-field-mono {
+  display: flex;
+  align-items: center;
+  margin-bottom: 12px;
+  gap: 12px;
+}
+
+.image-urls-group-mono .image-url-field-mono input[type="url"] {
+  flex-grow: 1;
+}
+
+/* Ações do Formulário (Botão de Cadastrar) */
+.form-actions-mono {
+  margin-top: 35px;
+  padding-top: 25px;
+  border-top: 1px solid #e0e0e0;
+  text-align: right;
+}
+
+/* ==========================================================================
+   ESTILOS DE BOTÃO MODERNOS (Coloque isso no seu CSS global ou aqui se necessário)
+   Se estes já estiverem no seu CSS global e funcionando, você não precisa repeti-los.
+   Se não estiverem, incluí-los aqui garantirá que os botões nesta página funcionem.
+   ========================================================================== */
+
+/* Base para todos os botões */
+.button-mono {
+  /* Removido .app-wrapper-monochrome para simplificar se este for um CSS local */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 24px;
+  font-family: inherit;
+  font-size: 0.9rem;
+  font-weight: 600;
+  line-height: 1.5;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-radius: 6px;
+  cursor: pointer;
+  text-align: center;
+  vertical-align: middle;
+  text-decoration: none;
+  user-select: none;
+  border: 1px solid transparent;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.08),
+    0 1px 2px -1px rgba(0, 0, 0, 0.05);
+}
+
+.button-mono:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.1), 0 3px 6px -2px rgba(0, 0, 0, 0.08);
+}
+
+.button-mono:focus-visible {
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 3px rgba(31, 31, 31, 0.25);
+}
+.button-mono:focus {
+  outline: none;
+}
+
+.button-mono:active {
+  transform: translateY(0px);
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.12);
+}
+
+.button-mono:disabled,
+.button-mono.disabled-arrow {
+  opacity: 0.6;
+  cursor: not-allowed;
+  box-shadow: none;
+  transform: none;
+}
+.button-mono:disabled:hover,
+.button-mono.disabled-arrow:hover {
+  box-shadow: none;
+  transform: none;
+}
+
+/* --- Modificador: Botão Primário --- */
+.primary-button-mono {
+  background-color: #1f1f1f;
+  color: #ffffff;
+  border-color: #1f1f1f;
+}
+.primary-button-mono:hover {
+  background-color: #333333;
+  border-color: #333333;
+  color: #ffffff; /* Garante que a cor do texto permaneça */
+}
+.primary-button-mono:active {
+  background-color: #000000;
+  border-color: #000000;
+}
+
+/* --- Modificador: Botão Secundário (Estilo "Outline" ou "Ghost") --- */
+.secondary-button-mono {
+  background-color: transparent;
+  color: #1f1f1f;
+  border: 1px solid #4a4a4a;
+  box-shadow: none;
+}
+.secondary-button-mono:hover {
+  background-color: rgba(31, 31, 31, 0.05);
+  border-color: #1f1f1f;
+  color: #1f1f1f;
+}
+.secondary-button-mono:active {
+  background-color: rgba(31, 31, 31, 0.1);
+  border-color: #1f1f1f;
+  color: #1f1f1f;
+}
+
+/* --- Modificador: Botão "Light" --- */
+.light-button-mono {
+  background-color: #f0f0f0;
+  color: #1f1f1f;
+  border-color: #e0e0e0;
+}
+.light-button-mono:hover {
+  background-color: #e0e0e0;
+  border-color: #d0d0d0;
+  color: #1f1f1f;
+}
+.light-button-mono:active {
+  background-color: #d0d0d0;
+  border-color: #c0c0c0;
+}
+
+/* --- Modificador: Botão de Perigo (Ex: Remover) --- */
+.danger-button-mono,
+.remove-item-button-mono {
+  /* Aplicando a .remove-item-button-mono também */
+  background-color: #fef2f2;
+  color: #ef4444;
+  border-color: #fca5a5;
+}
+.danger-button-mono:hover,
+.remove-item-button-mono:hover {
+  background-color: #ef4444;
+  color: #ffffff;
+  border-color: #ef4444;
+}
+.danger-button-mono:active,
+.remove-item-button-mono:active {
+  background-color: #dc2626;
+  border-color: #dc2626;
+  color: #ffffff;
+}
+
+/* Ajustes específicos para botões DENTRO do formulário, se necessário */
+/* Usando as classes que você já tem no JSX */
+
+.product-form-mono .cancel-button-mono {
+  /* Já usa .button-mono. Se precisar de estilo de .secondary-button-mono, adicione a classe no JSX: */
+  /* <button className="button-mono secondary-button-mono cancel-button-mono"> */
+  /* Se for só .button-mono cancel-button-mono, ele será outline escuro por padrão. */
+  /* Ou, se quiser que .cancel-button-mono *seja* o secundário: */
+  /* background-color: transparent; */ /* já é do .button-mono */
+  /* color: #1f1f1f; */ /* já é do .button-mono */
+  /* border: 1px solid #4a4a4a; */ /* como o .secondary-button-mono */
+  /* box-shadow: none; */ /* como o .secondary-button-mono */
+  font-size: 0.85rem; /* Ajuste de tamanho se necessário */
+  padding: 8px 18px; /* Ajuste de padding se necessário */
+}
+/* .product-form-mono .cancel-button-mono:hover { */
+/* background-color: rgba(31, 31, 31, 0.05); */
+/* border-color: #1f1f1f; */
+/* } */
+
+.product-form-mono .remove-image-button-mono {
+  /* Herda .button-mono e .remove-item-button-mono (que é como .danger-button-mono) */
+  padding: 9px 14px;
+  font-size: 0.8rem;
+  height: calc(
+    1.5em + 24px + 2px
+  ); /* Para alinhar com inputs mais altos. (Aprox. 48px para font 0.95rem no input) */
+  line-height: 1.5; /* Ajuda no alinhamento vertical do texto */
+}
+
+.product-form-mono .add-image-button-mono {
+  /* No JSX é: button-mono secondary-button-mono add-image-button-mono */
+  /* Herda .button-mono e .secondary-button-mono */
+  margin-top: 8px;
+  font-size: 0.85rem;
+  padding: 9px 18px;
+}
+
+.product-form-mono .submit-product-button-mono {
+  /* No JSX é: button-mono primary-button-mono submit-product-button-mono */
+  /* Herda .button-mono e .primary-button-mono */
+  padding: 14px 35px;
+  font-size: 1rem;
+}
+
+/* Responsividade para o formulário (já incluída anteriormente) */
+@media (max-width: 768px) {
+  .product-registration-page-mono {
+    margin: 20px 15px;
+    padding: 25px 20px;
+  }
+  .registration-header-mono h2 {
+    font-size: 1.6rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .form-row-mono {
+    flex-direction: column;
+    gap: 0;
+    margin-bottom: 0;
+  }
+  .form-row-mono .form-group-mono {
+    margin-bottom: 22px;
+  }
+  .registration-header-mono {
+    flex-direction: column;
+    align-items: stretch;
+    text-align: center;
+    gap: 15px;
+  }
+  .product-registration-page-mono .cancel-button-mono {
+    align-self: center;
+    width: fit-content;
+  }
+  .form-actions-mono {
+    text-align: center;
+  }
+  .product-form-mono .submit-product-button-mono {
+    width: 100%;
+  }
+  .image-urls-group-mono .image-url-field-mono {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .product-form-mono .remove-image-button-mono {
+    height: auto;
+    width: 100%;
+    margin-top: 8px;
+  }
+}
