@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom"; // Passo 1: Importar Link
 import "./Styles/style.css";
 import ProductDetailPage from "../Product";
-import { allProductsData as initialAllProductsData } from "../../assets/allProductsData"; // Renomeado para clareza
+import { allProductsData as initialAllProductsData } from "../../assets/allProductsData";
 import CartView from "../Cart";
 // Importe sua página de cadastro se App.js precisar interagir diretamente com ela (ex: passar props),
 // caso contrário, o React Router cuidará de renderizá-la na rota correta.
@@ -331,7 +331,7 @@ function App() {
         <nav className="main-nav-mono">
           <Link to="/">HOME</Link>
           <Link to="/ProductRegistration">CADASTRAR PRODUTO</Link>
-          <Link to="/ProductManagementList">EDITAR PRODUTO</Link>
+          <Link to="/ProductEdit">EDITAR PRODUTO</Link>
         </nav>
         <div
           className="logo-mono central-logo-mono"

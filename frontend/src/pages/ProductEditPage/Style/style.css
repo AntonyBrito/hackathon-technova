@@ -1,16 +1,26 @@
-/* src/pages/ProductManagementList.css */
-.product-management-page-mono {
+/* src/pages/ProductEditListPage.css */
+
+/* Estilos para o container principal da página (usado tanto para lista quanto para formulário) */
+/* A classe .product-management-page-mono é usada para a visualização da lista */
+/* A classe .product-registration-page-mono é usada para a visualização do formulário */
+.product-management-page-mono,
+.product-registration-page-mono.product-edit-page-form-view {
   padding: 30px 25px;
-  max-width: 1100px; /* Pode ser um pouco mais largo para a lista */
+  max-width: 1000px; /* Ajustado para a lista, o formulário pode ser mais estreito internamente */
   margin: 40px auto;
   background-color: #ffffff;
   border: 1px solid #e0e0e0;
   border-radius: 8px;
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
   color: #1f1f1f;
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
 }
 
-.management-header-mono {
+/* Estilo para o cabeçalho da página (usado em ambas as visualizações com classes diferentes) */
+.management-header-mono, /* Para a lista */
+.product-edit-page-form-view .registration-header-mono {
+  /* Para o formulário */
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -19,37 +29,56 @@
   margin-bottom: 30px;
 }
 
-.management-header-mono h2 {
-  font-size: 1.8rem; /* Ajustado para consistência */
+.management-header-mono h2,
+.product-edit-page-form-view .registration-header-mono h2 {
+  font-size: 1.8rem;
   color: #000000;
   margin: 0;
   text-transform: uppercase;
   font-weight: 700;
   letter-spacing: 0.05em;
 }
+.product-edit-page-form-view .registration-header-mono h2 span {
+  /* Para o nome do produto no título */
+  text-transform: none;
+  color: #555;
+  font-weight: normal;
+}
 
+/* Botão "Voltar para Home" ou "Cancelar Edição" no cabeçalho */
+/* As classes .button-mono, .secondary-button-mono, .cancel-button-mono vêm do CSS global */
+.management-header-mono .button-mono,
+.product-edit-page-form-view .registration-header-mono .button-mono {
+  font-size: 0.85rem;
+  padding: 8px 18px;
+}
+
+/* Mensagem de Lista Vazia */
 .empty-list-message-mono {
   text-align: center;
   font-size: 1.1rem;
   color: #555555;
   padding: 40px 0;
 }
-.empty-list-message-mono + .button-mono.primary-button-mono {
+.product-management-page-mono
+  .empty-list-message-mono
+  + .button-mono.primary-button-mono {
   display: block;
   width: fit-content;
   margin: 0 auto 20px auto;
 }
 
+/* --- ESTILOS PARA A VISUALIZAÇÃO DA LISTA DE PRODUTOS --- */
 .product-list-header-titles-mono {
   display: grid;
-  grid-template-columns: 80px 2fr 1fr 1fr 1.5fr; /* Colunas: Img, Nome, Preço, Estoque, Ações */
+  grid-template-columns: 80px 2fr 1fr 1fr 200px; /* Img, Nome, Preço, Estoque, Ações (200px para 2 botões) */
   gap: 15px;
   padding: 10px 15px;
   font-weight: 600;
   color: #4a4a4a;
   font-size: 0.85rem;
   text-transform: uppercase;
-  border-bottom: 2px solid #1f1f1f; /* Linha de cabeçalho mais forte */
+  border-bottom: 2px solid #1f1f1f;
   margin-bottom: 10px;
 }
 .product-list-header-titles-mono span:nth-child(3), /* Preço */
@@ -65,24 +94,21 @@
 .product-list-manageable-mono {
   display: flex;
   flex-direction: column;
-  gap: 1px; /* Cria linhas finas entre os itens se eles tiverem background */
-  background-color: #e0e0e0; /* Cor para as linhas finas */
-  border: 1px solid #e0e0e0;
+  gap: 1px;
+  background-color: #e8e8e8; /* Cor de fundo para simular linhas */
+  border: 1px solid #e8e8e8;
   border-radius: 4px;
-  overflow: hidden; /* Para o border-radius funcionar com os itens internos */
+  overflow: hidden;
 }
 
 .product-item-manageable-mono {
   display: grid;
-  grid-template-columns: 80px 2fr 1fr 1fr 1.5fr; /* Alinha com os títulos */
+  grid-template-columns: 80px 2fr 1fr 1fr 200px; /* Alinha com os títulos */
   align-items: center;
   gap: 15px;
-  padding: 12px 15px;
-  background-color: #ffffff; /* Fundo de cada item */
+  padding: 15px; /* Mais padding no item */
+  background-color: #ffffff;
 }
-/* .product-item-manageable-mono:not(:last-child) { */
-/* border-bottom: 1px solid #f0f0f0; */ /* Linha separadora mais sutil */
-/* } */
 
 .product-item-image-manageable-mono {
   width: 60px;
@@ -94,39 +120,42 @@
 }
 
 .product-item-name-manageable-mono {
-  font-weight: 500;
-  font-size: 0.95rem;
+  font-weight: 600; /* Nome mais destacado */
+  font-size: 1rem;
   color: #1f1f1f;
 }
 .product-item-name-manageable-mono small {
   display: block;
   font-size: 0.75rem;
   color: #777;
-  margin-top: 2px;
+  margin-top: 3px;
 }
 
 .product-item-price-manageable-mono,
 .product-item-stock-manageable-mono {
-  font-size: 0.9rem;
+  font-size: 0.95rem;
   color: #333;
   text-align: right;
 }
 
 .product-item-actions-manageable-mono {
   display: flex;
-  justify-content: center; /* Centraliza os botões na célula */
+  justify-content: center;
+  align-items: center;
   gap: 10px;
 }
 
+/* Botões "Editar" e "Remover" na lista */
+/* Eles usam .button-mono, .light-button-mono, .danger-button-mono do global */
 .edit-action-button-list-mono,
 .delete-action-button-list-mono {
-  padding: 6px 12px; /* Botões menores na lista */
-  font-size: 0.75rem;
-  min-width: 70px; /* Largura mínima para os botões */
+  padding: 7px 14px !important; /* Sobrescreve padding para botões menores na lista */
+  font-size: 0.8rem !important; /* Sobrescreve font-size para botões menores */
+  min-width: 80px; /* Largura mínima */
+  letter-spacing: 0.03em;
 }
-/* .edit-action-button-list-mono usa .light-button-mono global */
-/* .delete-action-button-list-mono usa .danger-button-mono global */
 
+/* Rodapé da Lista de Gerenciamento (botão Adicionar Novo Produto) */
 .management-footer-actions-mono {
   margin-top: 30px;
   padding-top: 20px;
@@ -134,89 +163,137 @@
   text-align: right;
 }
 .management-footer-actions-mono .primary-button-mono {
+  font-size: 0.9rem; /* Ajuste se necessário */
+}
+
+/* --- ESTILOS PARA A VISUALIZAÇÃO DO FORMULÁRIO DE EDIÇÃO --- */
+/* A classe .product-registration-page-mono já deve ter estilos para o formulário base */
+/* .product-edit-page-form-view é uma classe adicional para especificidade, se necessário */
+
+/* O ProductForm em si é estilizado por ProductRegistrationPage.css (ou o CSS que ele importa) */
+
+/* Container para o botão de deletar abaixo do formulário */
+.delete-action-container-mono {
+  margin-top: 30px;
+  padding-top: 25px;
+  border-top: 1px solid #e8e8e8;
+  display: flex;
+  justify-content: flex-start; /* Botão de deletar alinhado à esquerda */
+}
+
+/* Botão "Remover este Produto" abaixo do formulário */
+/* Usa .button-mono e .danger-button-mono do global */
+.delete-product-button-mono {
+  /* Ajustes de tamanho/padding se diferentes do .danger-button-mono padrão */
+  padding: 12px 25px;
   font-size: 0.9rem;
 }
 
-/* Responsividade para a Lista de Gerenciamento */
+/* --- RESPONSIVIDADE (Combinada para ambas as visualizações) --- */
 @media (max-width: 900px) {
+  /* Ajustes para a LISTA em telas menores */
   .product-list-header-titles-mono,
   .product-item-manageable-mono {
-    /* Ajuste para telas menores: talvez menos colunas ou empilhar */
-    grid-template-columns: 60px 1.5fr 1fr 1fr; /* Remove coluna de Ações separada, junta com info */
-    gap: 10px;
+    grid-template-columns: 60px 1.5fr auto; /* Img, Nome+Info, Ações */
+    gap: 12px;
   }
-  .product-list-header-titles-mono span:last-child {
-    display: none;
-  } /* Esconde título "Ações" */
-
-  .product-item-info-manageable-mono {
-    /* Agrupa nome, preço, estoque se necessário */
-    /* Você pode precisar reestruturar o JSX do item para agrupar melhor */
+  .product-list-header-titles-mono span:nth-child(3), /* Preço */
+  .product-list-header-titles-mono span:nth-child(4) {
+    /* Estoque */
+    display: none; /* Esconde colunas de preço e estoque no cabeçalho da lista */
   }
-  .product-item-actions-manageable-mono {
-    grid-column: 1 / -1; /* Ocupa todas as colunas */
-    grid-row: 2; /* Fica abaixo das informações do produto */
-    justify-content: flex-start; /* Alinha botões à esquerda */
-    padding-top: 10px;
-    border-top: 1px dashed #eee; /* Linha separadora para ações */
-    margin-top: 10px;
-  }
-  .product-item-manageable-mono {
-    /* Para acomodar as ações abaixo */
-    grid-template-rows: auto auto;
-  }
-  .product-item-image-manageable-mono {
-    grid-row: 1 / span 1;
+  .product-item-price-manageable-mono,
+  .product-item-stock-manageable-mono {
+    display: none; /* Esconde preço e estoque nos itens da lista para simplificar */
   }
   .product-item-name-manageable-mono {
-    grid-column: 2 / -1;
+    grid-column: 2 / 3;
   }
-  .product-item-price-manageable-mono {
-    display: none; /* Exemplo: esconde para simplificar */
+  .product-item-actions-manageable-mono {
+    grid-column: 3 / 4;
+    justify-content: flex-end; /* Alinha botões à direita */
   }
-  .product-item-stock-manageable-mono {
-    display: none; /* Exemplo: esconde para simplificar */
+}
+
+@media (max-width: 768px) {
+  .product-management-page-mono,
+  .product-registration-page-mono.product-edit-page-form-view {
+    margin: 20px 15px;
+    padding: 25px 20px;
+  }
+  .management-header-mono h2,
+  .product-edit-page-form-view .registration-header-mono h2 {
+    font-size: 1.6rem;
   }
 }
 
 @media (max-width: 600px) {
-  .management-header-mono {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 15px;
-  }
-  .management-header-mono .button-mono {
-    align-self: flex-start;
-  }
+  /* Ajustes para a LISTA em telas muito pequenas */
   .product-list-header-titles-mono {
-    display: none; /* Esconde cabeçalho da tabela em telas muito pequenas */
+    display: none;
   }
   .product-item-manageable-mono {
-    grid-template-columns: 60px 1fr; /* Imagem e o resto */
-    padding: 10px;
+    grid-template-columns: 1fr; /* Empilha tudo */
+    text-align: center; /* Centraliza texto */
+    gap: 10px;
   }
   .product-item-image-manageable-mono {
-    grid-row: 1 / span 1;
-    margin-bottom: 10px;
+    margin: 0 auto 10px auto; /* Centraliza imagem */
   }
   .product-item-name-manageable-mono,
-  .product-item-price-manageable-mono, /* Reaparecem se não escondidos antes */
+  .product-item-price-manageable-mono, /* Reaparecem se quiser mostrar */
   .product-item-stock-manageable-mono {
-    /* Reaparecem se não escondidos antes */
-    grid-column: 1 / -1; /* Ocupam toda a largura abaixo da imagem */
-    text-align: left;
-    margin-bottom: 5px;
-    display: block; /* Garante que apareçam */
+    /* Reaparecem se quiser mostrar */
+    text-align: center; /* Centraliza */
+    display: block;
   }
   .product-item-actions-manageable-mono {
-    grid-column: 1 / -1;
-    padding-top: 10px;
-    margin-top: 10px;
-    justify-content: space-around; /* Botões se espaçam */
+    flex-direction: column; /* Botões empilhados */
+    gap: 10px;
+    align-items: stretch; /* Botões ocupam largura total */
   }
   .edit-action-button-list-mono,
   .delete-action-button-list-mono {
-    flex-grow: 1; /* Faz botões ocuparem espaço disponível */
-    margin: 0 5px;
+    width: 100%;
+  }
+  .management-footer-actions-mono {
+    text-align: center;
+  }
+  .management-footer-actions-mono .button-mono {
+    width: 100%;
+  }
+
+  /* Ajustes para o FORMULÁRIO em telas muito pequenas (já definidos em ProductRegistrationPage.css, mas podem ser reforçados aqui) */
+  .product-edit-page-form-view .form-row-mono {
+    flex-direction: column;
+    gap: 0;
+    margin-bottom: 0;
+  }
+  .product-edit-page-form-view .form-row-mono .form-group-mono {
+    margin-bottom: 22px;
+  }
+  .product-edit-page-form-view .registration-header-mono {
+    flex-direction: column;
+    align-items: stretch;
+    text-align: center;
+    gap: 15px;
+  }
+  .product-edit-page-form-view .registration-header-mono .cancel-button-mono {
+    align-self: center;
+    width: fit-content;
+  }
+  .product-edit-page-form-view .form-actions-mono {
+    /* Para o botão de submit do ProductForm */
+    text-align: center;
+  }
+  .product-edit-page-form-view .submit-product-button-mono {
+    width: 100%;
+  }
+  .delete-action-container-mono {
+    /* Container do botão de deletar abaixo do form */
+    justify-content: center;
+  }
+  .delete-action-container-mono .delete-product-button-mono {
+    width: 100%;
   }
 }

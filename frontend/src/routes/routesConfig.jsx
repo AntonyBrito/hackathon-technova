@@ -1,6 +1,6 @@
 import Home from "../pages/Initial";
 import ProductRegistration from "../pages/ProductRegistration";
-import ProductEditPage from "../pages/ProductEditPage";
+import ProductEdit from "../pages/ProductEditPage";
 
 export const routes = [
   {
@@ -9,9 +9,9 @@ export const routes = [
     element: <Home />,
   },
   {
-    path: "/ProductEditPage",
-    name: "ProductEditPage",
-    element: <ProductEditPage />,
+    path: "/ProductEdit",
+    name: "ProductEdit",
+    element: <ProductEdit />,
   },
   {
     path: "/ProductRegistration",
