@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import Swal from 'sweetalert2';
 import "./Styles/style.css";
 import ProductDetailPage from "../Product";
 import CartView from "../Cart";
+import Header from "../../components/Header"; 
 import { getProducts, checkoutService } from "../../services/productService";
 
 // --- HELPER FUNCTION TO DERIVE PRODUCT TYPE ---
@@ -70,7 +72,6 @@ function App() {
     try {
       setIsLoading(true);
       const data = await getProducts();
-      // Sort products by ID descending to show newest first
       const sortedData = data.sort((a, b) => b.id - a.id);
       setAllProducts(sortedData);
       setError(null);
@@ -88,10 +89,9 @@ function App() {
     fetchProducts();
   }, []);
 
-  // --- LÓGICA PARA OS COMPONENTES DA PÁGINA (DESTAQUES, NOVIDADES, FILTROS) ---
   const FEATURED_PRODUCTS_COUNT = 2;
   const [featuredCurrentIndex, setFeaturedCurrentIndex] = useState(0);
-  const featuredProductsData = allProducts.slice(2, 8); // Products that are not the very newest
+  const featuredProductsData = allProducts.slice(2, 8);
   const handleFeaturedNext = () =>
     setFeaturedCurrentIndex((prev) =>
       Math.min(
@@ -110,7 +110,7 @@ function App() {
 
   const NEW_ARRIVALS_COUNT = 4;
   const [newArrivalsCurrentIndex, setNewArrivalsCurrentIndex] = useState(0);
-  const newArrivalsData = allProducts.slice(0, 8); // The 8 newest products
+  const newArrivalsData = allProducts.slice(0, 8);
   const handleNewArrivalsNext = () =>
     setNewArrivalsCurrentIndex((prev) =>
       Math.min(
@@ -127,7 +127,6 @@ function App() {
     newArrivalsCurrentIndex + NEW_ARRIVALS_COUNT
   );
 
-  // --- LOGIC FOR COMBINED FILTERS ---
   const ITEMS_PER_PAGE = 6;
   const brands = [...new Set(allProducts.map((p) => p.manufacturer))];
   const colors = [...new Set(allProducts.map((p) => p.color).filter(Boolean))];
@@ -160,7 +159,7 @@ function App() {
     if (filterType === "brand") setActiveBrandFilter(value);
     if (filterType === "color") setActiveColorFilter(value);
     if (filterType === "type") setActiveTypeFilter(value);
-    setDisplayedCount(ITEMS_PER_PAGE); // Reset count on new filter
+    setDisplayedCount(ITEMS_PER_PAGE);
   };
 
   const handleGoHome = () => {
@@ -191,9 +190,8 @@ function App() {
     const productToAdd = allProducts.find((p) => p.id === productId);
     if (!productToAdd) return;
 
-    // Trigger cart animation
     setIsCartAnimating(true);
-    setTimeout(() => setIsCartAnimating(false), 820); // Duration of the animation
+    setTimeout(() => setIsCartAnimating(false), 820);
 
     setCartItems((prevItems) => {
       const existingItem = prevItems.find((item) => item.id === productId);
@@ -230,10 +228,6 @@ function App() {
         ];
       }
     });
-    // Optional: automatically open cart on add
-    // if (!isCartViewActive) {
-    //   setIsCartViewActive(true);
-    // }
   };
 
   const handleRemoveFromCart = (productId) => {
@@ -259,17 +253,35 @@ function App() {
   };
 
   const handleFinalizePurchase = async () => {
-    if (!window.confirm("Tem certeza que deseja finalizar a compra?")) {
-      return;
-    }
-    try {
-      await checkoutService(cartItems, allProducts);
-      alert("Compra realizada com sucesso!");
-      setCartItems([]);
-      setIsCartViewActive(false);
-      await fetchProducts(); // Refresh products to get updated stock
-    } catch (error) {
-      alert(`Erro ao processar a compra: ${error.message}`);
+    const result = await Swal.fire({
+      title: 'Deseja finalizar a compra?',
+      text: "Esta ação atualizará o estoque dos produtos.",
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Sim, finalizar!',
+      cancelButtonText: 'Cancelar'
+    });
+
+    if (result.isConfirmed) {
+      try {
+        await checkoutService(cartItems, allProducts);
+        Swal.fire(
+          'Compra Realizada!',
+          'Sua compra foi processada com sucesso.',
+          'success'
+        );
+        setCartItems([]);
+        setIsCartViewActive(false);
+        await fetchProducts();
+      } catch (error) {
+        Swal.fire(
+          'Erro!',
+          `Ocorreu um problema: ${error.message}`,
+          'error'
+        );
+      }
     }
   };
 
@@ -280,7 +292,8 @@ function App() {
     }
   };
 
-  // --- RENDERIZAÇÃO CONDICIONAL ---
+  const cartItemCount = cartItems.reduce((acc, item) => acc + item.quantity, 0);
+
   if (selectedProductId) {
     const productToDisplay = allProducts.find(
       (p) => p.id === selectedProductId
@@ -291,6 +304,10 @@ function App() {
           product={productToDisplay}
           onAddToCart={handleAddToCart}
           onBack={handleBackToStore}
+          cartItemCount={cartItemCount}
+          isCartAnimating={isCartAnimating}
+          onCartClick={toggleCartView}
+          onLogoClick={handleGoHome}
         />
       </div>
     );
@@ -299,35 +316,12 @@ function App() {
   if (isCartViewActive) {
     return (
       <div className="app-wrapper-monochrome">
-        <header className="header-mono">
-          <nav className="main-nav-mono">
-            <Link to="/" onClick={handleGoHome}>
-              HOME
-            </Link>
-            <Link to="/ProductRegistration">CADASTRAR PRODUTO</Link>
-            <Link to="/ProductEdit">EDITAR PRODUTO</Link>
-          </nav>
-          <div
-            className="logo-mono central-logo-mono"
-            onClick={handleGoHome}
-            style={{ cursor: "pointer" }}
-          >
-            TechNova
-          </div>
-          <div className="header-icons-mono">
-            <span
-              onClick={toggleCartView}
-              className={isCartAnimating ? "cart-animation" : ""}
-              style={{
-                cursor: "pointer",
-                fontWeight: cartItems.length > 0 ? "bold" : "normal",
-              }}
-            >
-              CARRINHO (
-              {cartItems.reduce((acc, item) => acc + item.quantity, 0)})
-            </span>
-          </div>
-        </header>
+        <Header
+            cartItemCount={cartItemCount}
+            isCartAnimating={isCartAnimating}
+            onCartClick={toggleCartView}
+            onLogoClick={handleGoHome}
+        />
         <CartView
           cartItems={cartItems}
           onUpdateCartQuantity={handleUpdateCartQuantity}
@@ -340,37 +334,14 @@ function App() {
     );
   }
 
-  // --- RENDERIZAÇÃO DA LOJA PRINCIPAL (HOME) ---
   return (
     <div className="app-wrapper-monochrome">
-      <header className="header-mono">
-        <nav className="main-nav-mono">
-          <Link to="/" onClick={handleGoHome}>
-            HOME
-          </Link>
-          <Link to="/ProductRegistration">CADASTRAR PRODUTO</Link>
-          <Link to="/ProductEdit">EDITAR PRODUTO</Link>
-        </nav>
-        <div
-          className="logo-mono central-logo-mono"
-          onClick={handleGoHome}
-          style={{ cursor: "pointer" }}
-        >
-          TechNova
-        </div>
-        <div className="header-icons-mono">
-          <span
-            onClick={toggleCartView}
-            className={isCartAnimating ? "cart-animation" : ""}
-            style={{
-              cursor: "pointer",
-              fontWeight: cartItems.length > 0 ? "bold" : "normal",
-            }}
-          >
-            CARRINHO ({cartItems.reduce((acc, item) => acc + item.quantity, 0)})
-          </span>
-        </div>
-      </header>
+      <Header
+          cartItemCount={cartItemCount}
+          isCartAnimating={isCartAnimating}
+          onCartClick={toggleCartView}
+          onLogoClick={handleGoHome}
+      />
 
       {isLoading && (
         <p style={{ textAlign: "center", padding: "40px" }}>Carregando...</p>
@@ -474,9 +445,7 @@ function App() {
               <h3>Navegue por...</h3>
             </div>
 
-            {/* -- FILTERS CONTAINER -- */}
             <div className="filters-main-container-mono">
-              {/* Brand Filter */}
               <div className="filter-group-mono">
                 <h4>Marca</h4>
                 <div className="collection-filters-mono">
@@ -510,7 +479,6 @@ function App() {
                 </div>
               </div>
 
-              {/* Color Filter */}
               <div className="filter-group-mono">
                 <h4>Cor</h4>
                 <div className="collection-filters-mono">
@@ -544,7 +512,6 @@ function App() {
                 </div>
               </div>
 
-              {/* Type Filter */}
               <div className="filter-group-mono">
                 <h4>Tipo</h4>
                 <div className="collection-filters-mono">

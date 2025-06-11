@@ -1,13 +1,20 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import Header from "../../components/Header"; 
 import "./Styles/style.css";
 
-const ProductDetailPage = ({ product, onAddToCart, onBack }) => {
+const ProductDetailPage = ({
+  product,
+  onAddToCart,
+  onBack,
+  cartItemCount,
+  isCartAnimating,
+  onCartClick,
+  onLogoClick,
+}) => {
   const [quantity, setQuantity] = useState(1);
   const [mainImage, setMainImage] = useState(
     product.imageUrls && product.imageUrls.length > 0 ? product.imageUrls[0] : ""
   );
-  // Novo estado para controlar a mensagem de confirmação
   const [showConfirmation, setShowConfirmation] = useState(false);
 
   if (!product) {
@@ -29,9 +36,7 @@ const ProductDetailPage = ({ product, onAddToCart, onBack }) => {
 
   const handleAddToCartClick = () => {
     onAddToCart(product.id, quantity);
-    // Mostra a mensagem de confirmação
     setShowConfirmation(true);
-    // Esconde a mensagem após 2 segundos
     setTimeout(() => {
       setShowConfirmation(false);
     }, 2000);
@@ -39,20 +44,12 @@ const ProductDetailPage = ({ product, onAddToCart, onBack }) => {
 
   return (
     <div className="product-detail-page-mono">
-      <header className="header-mono">
-        {/* Este cabeçalho é simplificado e não contém o carrinho */}
-        <nav className="main-nav-mono">
-          <a href="#" onClick={onBack} style={{ cursor: "pointer" }}>
-            &larr; VOLTAR PARA A LOJA
-          </a>
-        </nav>
-        <div className="logo-mono central-logo-mono" onClick={onBack} style={{cursor: "pointer"}}>
-            TechNova
-        </div>
-        <div className="header-icons-mono">
-            {/* Espaço reservado para manter o alinhamento do logo */}
-        </div>
-      </header>
+      <Header
+        cartItemCount={cartItemCount}
+        isCartAnimating={isCartAnimating}
+        onCartClick={onCartClick}
+        onLogoClick={onLogoClick}
+      />
 
       <main className="product-main-content-mono">
         <div className="product-gallery-mono">
@@ -102,11 +99,13 @@ const ProductDetailPage = ({ product, onAddToCart, onBack }) => {
             >
               {product.quantity > 0 ? "Adicionar ao Carrinho" : "Fora de Estoque"}
             </button>
-            {/* Elemento da mensagem de confirmação */}
             {showConfirmation && (
               <span className="confirmation-message-mono">Adicionado!</span>
             )}
           </div>
+           <button onClick={onBack} className="button-mono secondary-button-mono" style={{marginTop: '20px', alignSelf: 'center'}}>
+                &larr; Voltar para a Loja
+            </button>
         </div>
       </main>
     </div>
