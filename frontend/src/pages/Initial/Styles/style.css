@@ -14,7 +14,6 @@
 .app-wrapper-monochrome h2,
 .app-wrapper-monochrome h3,
 .app-wrapper-monochrome h4 {
-  /* h4 foi removido com a seção 'Our Approach' mas pode ser útil se adicionar novas seções */
   text-transform: uppercase;
   font-weight: 700;
   letter-spacing: 0.05em;
@@ -23,11 +22,45 @@
 .app-wrapper-monochrome h2 {
   font-size: 2.2rem;
   margin: 0 0 10px 0;
-} /* Título da seção de destaque (ex-New Collection) */
+}
 .app-wrapper-monochrome h3 {
   font-size: 1.5rem;
   margin: 0;
-} /* Títulos de Novidades e Navegue por Marcas */
+}
+.app-wrapper-monochrome h4 {
+  font-size: 1rem;
+  text-transform: uppercase;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  margin-top: 0;
+  margin-bottom: 12px;
+  color: var(--color-dark-greyV3);
+}
+
+/* Animação do Carrinho */
+@keyframes shake {
+  10%,
+  90% {
+    transform: translate3d(-1px, 0, 0);
+  }
+  20%,
+  80% {
+    transform: translate3d(2px, 0, 0);
+  }
+  30%,
+  50%,
+  70% {
+    transform: translate3d(-3px, 0, 0);
+  }
+  40%,
+  60% {
+    transform: translate3d(3px, 0, 0);
+  }
+}
+
+.app-wrapper-monochrome .cart-animation {
+  animation: shake 0.82s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+}
 
 /* Botões */
 .app-wrapper-monochrome .button-mono {
@@ -71,7 +104,7 @@
   margin-left: 10px;
   cursor: pointer;
   font-size: 0.9rem;
-  user-select: none; /* Para não selecionar o texto da seta ao clicar */
+  user-select: none;
 }
 .app-wrapper-monochrome .nav-arrows-mono span:hover:not(.disabled-arrow) {
   background-color: var(--color-light-greyV1);
@@ -93,27 +126,23 @@
 .app-wrapper-monochrome .product-image-container {
   width: 100%;
   position: relative;
-  background-color: var(
-    --color-light-greyV1
-  ); /* Cor de fundo enquanto a imagem carrega ou se falhar */
+  background-color: var(--color-light-greyV1);
   overflow: hidden;
-  /* Para manter uma proporção visual consistente, mesmo que as imagens variem: */
-  aspect-ratio: 4 / 3; /* Ou outra proporção que preferir para os cards */
+  aspect-ratio: 4 / 3;
 }
 
 .app-wrapper-monochrome .product-image-container img {
   display: block;
   width: 100%;
-  height: 100%; /* Faz a imagem preencher o container */
-  object-fit: cover; /* ou 'contain' dependendo do efeito desejado */
-  /* 'cover' vai preencher e cortar, 'contain' vai mostrar tudo e pode deixar espaços */
+  height: 100%;
+  object-fit: cover;
 }
 
 .app-wrapper-monochrome .product-image-wrapper {
   margin-bottom: 15px;
   border-radius: 4px;
   overflow: hidden;
-  border: 1px solid var(--color-light-greyV2); /* Borda sutil ao redor da imagem */
+  border: 1px solid var(--color-light-greyV2);
 }
 
 /* Header */
@@ -123,14 +152,16 @@
   align-items: center;
   padding: 20px 40px;
   border-bottom: 1px solid var(--color-light-greyV1);
+  /* Estilos para fixar o header */
+  position: sticky;
+  top: 0;
+  left: 0;
+  right: 0;
   background-color: var(--color-white);
+  z-index: 1000;
 }
 
-.header-mono {
-  position: relative;
-}
-
-.central-logo-mono {
+.header-mono .central-logo-mono {
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
@@ -149,7 +180,6 @@
   color: var(--color-black);
 }
 .app-wrapper-monochrome .central-logo-mono {
-  /* Logo "TechNova" */
   font-size: 1.8rem;
   font-weight: 800;
   color: var(--color-black);
@@ -169,38 +199,33 @@
 .app-wrapper-monochrome .header-icons-mono span:hover {
   color: var(--color-black);
 }
-.app-wrapper-monochrome .header-icons-mono span:first-child {
-  font-size: 1rem;
-}
 
 /* Seção Genérica */
 .app-wrapper-monochrome .section-mono {
-  padding: 50px 40px; /* Aumentei um pouco o padding vertical */
+  padding: 50px 40px;
   border-bottom: 1px solid var(--color-light-greyV1);
 }
 .app-wrapper-monochrome .section-mono:last-of-type {
   border-bottom: none;
 }
 
-/* Produtos em Destaque (ex-New Collection) */
+/* Produtos em Destaque */
 .app-wrapper-monochrome .new-collection-mono {
-  /* Reutilizando a classe para layout */
   display: grid;
   grid-template-columns: 1fr 1.5fr;
   gap: 40px;
-  align-items: center; /* Centraliza verticalmente se o texto for menor */
+  align-items: center;
   padding-top: 60px;
   padding-bottom: 60px;
 }
 .app-wrapper-monochrome .new-collection-text h2 {
-  /* Ajuste específico para o título da seção de destaque */
-  font-size: 2.5rem; /* Um pouco menor que o original de moda */
+  font-size: 2.5rem;
 }
 .app-wrapper-monochrome .collection-description {
   font-size: 0.9rem;
   color: var(--color-dark-greyV2);
   line-height: 1.6;
-  margin: 15px 0 30px 0; /* Adiciona margem superior */
+  margin: 15px 0 30px 0;
   max-width: 400px;
 }
 .app-wrapper-monochrome .collection-actions {
@@ -213,17 +238,17 @@
   gap: 20px;
 }
 
-/* Novidades (ex-New This Week) */
+/* Novidades */
 .app-wrapper-monochrome .section-header-mono {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 30px; /* Mais espaço abaixo do header da seção */
+  margin-bottom: 30px;
 }
 .app-wrapper-monochrome .badge-mono {
   background-color: var(--color-black);
   color: var(--color-white);
-  padding: 4px 8px; /* Um pouco maior */
+  padding: 4px 8px;
   font-size: 0.7rem;
   font-weight: bold;
   margin-left: 10px;
@@ -236,17 +261,17 @@
   gap: 20px;
 }
 
-/* Estilos para ProductCard e seus tamanhos */
+/* Product Card */
 .app-wrapper-monochrome .product-card {
   background-color: var(--color-white);
   border: 1px solid var(--color-light-greyV1);
   border-radius: 6px;
-  padding: 15px; /* Padding interno do card */
+  padding: 15px;
   text-align: center;
   transition: transform 0.25s ease, box-shadow 0.25s ease;
   display: flex;
   flex-direction: column;
-  justify-content: space-between; /* Para alinhar o conteúdo verticalmente */
+  justify-content: space-between;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
 }
 .app-wrapper-monochrome .product-card:hover {
@@ -258,15 +283,15 @@
   font-size: 0.9rem;
   margin-top: 12px;
   margin-bottom: 6px;
-  font-weight: 600; /* Nome mais destacado */
+  font-weight: 600;
   color: var(--color-dark-greyV3);
   line-height: 1.3;
-  min-height: calc(0.9rem * 1.3 * 2); /* Espaço para aprox. 2 linhas */
+  min-height: calc(0.9rem * 1.3 * 2);
 }
 .app-wrapper-monochrome .product-price {
   font-size: 1rem;
-  font-weight: 700; /* Preço bem destacado */
-  color: var(--color-black); /* Preto para o preço */
+  font-weight: 700;
+  color: var(--color-black);
   margin-bottom: 10px;
 }
 
@@ -282,22 +307,37 @@
   font-weight: 600;
 }
 
-/* Navegue por Marcas (ex-XIV Collections) */
+/* Filtros */
+.app-wrapper-monochrome .filters-main-container-mono {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  margin-top: 20px;
+  padding-bottom: 30px;
+  border-bottom: 1px solid var(--color-light-greyV1);
+  margin-bottom: 30px;
+}
+
+.app-wrapper-monochrome .filter-group-mono {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
 .app-wrapper-monochrome .collection-filters-mono {
-  /* Reutilizando para filtros de marca */
   display: flex;
   align-items: center;
-  gap: 10px; /* Menor gap */
-  flex-wrap: wrap; /* Permite que os filtros quebrem linha se necessário */
+  gap: 10px;
+  flex-wrap: wrap;
 }
 .app-wrapper-monochrome .collection-filters-mono a {
-  font-size: 0.75rem; /* Menor para os filtros */
+  font-size: 0.75rem;
   text-decoration: none;
   color: var(--color-dark-greyV2);
   text-transform: uppercase;
   font-weight: 500;
-  padding: 6px 12px; /* Padding nos links de filtro */
-  border: 1px solid transparent; /* Para transição suave */
+  padding: 6px 12px;
+  border: 1px solid transparent;
   border-radius: 4px;
   transition: background-color 0.2s ease, color 0.2s ease,
     border-color 0.2s ease;
@@ -308,8 +348,8 @@
   background-color: var(--color-dark-greyV3);
   border-color: var(--color-dark-greyV3);
 }
+
 .app-wrapper-monochrome .main-product-grid-mono {
-  /* Grid principal de produtos por marca */
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 20px;
@@ -326,13 +366,13 @@
   padding: 50px 40px 30px 40px;
   background-color: var(--color-light-greyV2);
   text-align: center;
-  border-top: 1px solid var(--color-light-greyV1); /* Adiciona uma borda no topo do footer */
+  border-top: 1px solid var(--color-light-greyV1);
 }
 .app-wrapper-monochrome .footer-links-mono {
-  margin-bottom: 30px; /* Menos margem */
+  margin-bottom: 30px;
 }
 .app-wrapper-monochrome .footer-links-mono a {
-  margin: 0 12px; /* Menos margem entre links */
+  margin: 0 12px;
   text-decoration: none;
   color: var(--color-dark-greyV2);
   font-size: 0.75rem;
@@ -343,8 +383,7 @@
   color: var(--color-black);
 }
 .app-wrapper-monochrome .footer-logo-mono {
-  /* Logo "TechNova" no rodapé */
-  font-size: 1.8rem; /* Menor que o logo XIV QR original */
+  font-size: 1.8rem;
   font-weight: 700;
   color: var(--color-black);
   margin-bottom: 25px;
@@ -357,7 +396,7 @@
   letter-spacing: 0.05em;
 }
 
-/* Responsividade (Básica) */
+/* Responsividade */
 @media (max-width: 1200px) {
   .app-wrapper-monochrome .new-collection-mono {
     grid-template-columns: 1fr;
@@ -365,7 +404,7 @@
   }
   .app-wrapper-monochrome .new-collection-text {
     margin: 0 auto 30px auto;
-    align-items: center; /* Centraliza o conteúdo do texto */
+    align-items: center;
     display: flex;
     flex-direction: column;
   }
@@ -376,14 +415,14 @@
     grid-template-columns: 1fr 1fr;
     max-width: 620px;
     margin: 0 auto;
-  } /* Ajuste para 2 produtos */
+  }
 
   .app-wrapper-monochrome .horizontal-product-grid-mono {
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   }
   .app-wrapper-monochrome .main-product-grid-mono {
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  } /* Ajuste para os cards da TechNova */
+  }
 }
 
 @media (max-width: 768px) {
@@ -403,10 +442,10 @@
   }
   .app-wrapper-monochrome .section-mono {
     padding: 30px 20px;
-  } /* Padding ajustado */
+  }
   .app-wrapper-monochrome h2 {
     font-size: 1.8rem;
-  } /* Títulos menores */
+  }
   .app-wrapper-monochrome h3 {
     font-size: 1.3rem;
   }
@@ -415,21 +454,20 @@
     gap: 15px;
     align-items: center;
     text-align: center;
-  } /* Centraliza header da seção */
+  }
+  .app-wrapper-monochrome .filter-group-mono,
   .app-wrapper-monochrome .collection-filters-mono {
     justify-content: center;
+    align-items: center;
   }
 
   .app-wrapper-monochrome .new-collection-products-mono {
     grid-template-columns: 1fr;
     max-width: 320px;
-  } /* Um produto por linha em telas pequenas */
+  }
   .app-wrapper-monochrome .horizontal-product-grid-mono,
   .app-wrapper-monochrome .main-product-grid-mono {
-    grid-template-columns: repeat(
-      auto-fit,
-      minmax(160px, 1fr)
-    ); /* Cards menores e mais flexíveis */
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
     gap: 15px;
   }
   .app-wrapper-monochrome .footer-mono {
@@ -454,10 +492,7 @@
     font-size: 2rem;
   }
   .app-wrapper-monochrome .horizontal-product-grid-mono {
-    grid-template-columns: repeat(
-      auto-fit,
-      minmax(140px, 1fr)
-    ); /* Ainda menores para telas bem pequenas */
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
   }
   .app-wrapper-monochrome .product-card,
   .app-wrapper-monochrome .product-card-small {

@@ -1,161 +1,114 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import "./Styles/style.css";
 
 const ProductDetailPage = ({ product, onAddToCart, onBack }) => {
+  const [quantity, setQuantity] = useState(1);
+  const [mainImage, setMainImage] = useState(
+    product.imageUrls && product.imageUrls.length > 0 ? product.imageUrls[0] : ""
+  );
+  // Novo estado para controlar a mensagem de confirmação
+  const [showConfirmation, setShowConfirmation] = useState(false);
+
   if (!product) {
     return (
-      <div
-        className="app-wrapper-monochrome"
-        style={{ padding: "40px", textAlign: "center" }}
-      >
-        <p>Produto não encontrado ou não selecionado.</p>
-        <button onClick={onBack} className="button-mono primary-button-mono">
-          Voltar para Loja
-        </button>
+      <div>
+        <p>Produto não encontrado.</p>
+        <button onClick={onBack}>Voltar para a loja</button>
       </div>
     );
   }
 
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const [selectedQuantity, setSelectedQuantity] = useState(1);
-
-  useEffect(() => {
-    if (product && product.quantity > 0) {
-      setSelectedQuantity(1);
-    } else {
-      setSelectedQuantity(0);
-    }
-  }, [product]);
-
-  const handleNextImage = () => {
-    setCurrentImageIndex(
-      (prevIndex) => (prevIndex + 1) % product.imageUrls.length
-    );
+  const handleQuantityChange = (amount) => {
+    setQuantity((prev) => Math.max(1, Math.min(prev + amount, product.quantity)));
   };
 
-  const handlePrevImage = () => {
-    setCurrentImageIndex(
-      (prevIndex) =>
-        (prevIndex - 1 + product.imageUrls.length) % product.imageUrls.length
-    );
-  };
-
-  const handleQuantityChange = (event) => {
-    let newQuantity = parseInt(event.target.value, 10);
-    if (isNaN(newQuantity) || newQuantity < 1) {
-      newQuantity = 1;
-    } else if (newQuantity > product.quantity) {
-      newQuantity = product.quantity;
-    }
-    setSelectedQuantity(newQuantity);
+  const handleThumbnailClick = (url) => {
+    setMainImage(url);
   };
 
   const handleAddToCartClick = () => {
-    if (selectedQuantity > 0 && selectedQuantity <= product.quantity) {
-      onAddToCart(product.id, selectedQuantity);
-    } else {
-      alert("Por favor, selecione uma quantidade válida.");
-    }
+    onAddToCart(product.id, quantity);
+    // Mostra a mensagem de confirmação
+    setShowConfirmation(true);
+    // Esconde a mensagem após 2 segundos
+    setTimeout(() => {
+      setShowConfirmation(false);
+    }, 2000);
   };
 
   return (
     <div className="product-detail-page-mono">
-      <button onClick={onBack} className="button-mono back-button-mono">
-        &lt; Voltar para Loja
-      </button>
-      <div className="product-detail-content-mono">
-        <div className="product-detail-images-mono">
-          <div className="main-image-container-pdp">
-            <img
-              src={
-                product.imageUrls[currentImageIndex] ||
-                "https://via.placeholder.com/480"
-              }
-              alt={`${product.name} - Imagem ${currentImageIndex + 1}`}
-              className="main-product-image-mono"
-            />
-            {product.imageUrls.length > 1 && (
-              <div className="pdp-image-nav-arrows">
-                <span onClick={handlePrevImage}>&lt;</span>
-                <span onClick={handleNextImage}>&gt;</span>
-              </div>
-            )}
+      <header className="header-mono">
+        {/* Este cabeçalho é simplificado e não contém o carrinho */}
+        <nav className="main-nav-mono">
+          <a href="#" onClick={onBack} style={{ cursor: "pointer" }}>
+            &larr; VOLTAR PARA A LOJA
+          </a>
+        </nav>
+        <div className="logo-mono central-logo-mono" onClick={onBack} style={{cursor: "pointer"}}>
+            TechNova
+        </div>
+        <div className="header-icons-mono">
+            {/* Espaço reservado para manter o alinhamento do logo */}
+        </div>
+      </header>
+
+      <main className="product-main-content-mono">
+        <div className="product-gallery-mono">
+          <div className="product-main-image-mono">
+            <img src={mainImage} alt={product.name} />
           </div>
-          {product.imageUrls.length > 1 && (
-            <div className="thumbnail-images-pdp">
-              {product.imageUrls.map((img, index) => (
+          <div className="product-thumbnails-mono">
+            {product.imageUrls &&
+              product.imageUrls.map((url, index) => (
                 <img
                   key={index}
-                  src={img}
-                  alt={`${product.name} - Miniatura ${index + 1}`}
-                  className={
-                    index === currentImageIndex ? "active-thumbnail-pdp" : ""
-                  }
-                  onClick={() => setCurrentImageIndex(index)}
+                  src={url}
+                  alt={`${product.name} thumbnail ${index + 1}`}
+                  onClick={() => handleThumbnailClick(url)}
+                  className={mainImage === url ? "active-thumbnail" : ""}
                 />
               ))}
-            </div>
-          )}
-        </div>
-        <div className="product-detail-info-mono">
-          <h2>{product.name}</h2>
-          <p className="product-detail-price-mono">
-            R$ {product.price.toFixed(2).replace(".", ",")}
-          </p>
-          <p className="product-detail-manufacturer-mono">
-            <strong>Fabricante:</strong> {product.manufacturer}
-          </p>
-          <p className="product-detail-color-mono">
-            <strong>Cor:</strong> {product.color}
-          </p>
-          <p className="product-detail-stock-mono">
-            {product.quantity > 0
-              ? `Em estoque: ${product.quantity} unidades`
-              : "Produto esgotado"}
-          </p>
-          <div className="product-detail-description-mono">
-            <h4>Descrição do Produto:</h4>
-            <p>{product.description}</p>
           </div>
-
-          <div className="product-actions-pdp">
-            {product.quantity > 0 ? (
-              <>
-                <div className="quantity-selector-pdp">
-                  <label htmlFor={`quantity-pdp-${product.id}`}>
-                    Quantidade:
-                  </label>
-                  <input
-                    type="number"
-                    id={`quantity-pdp-${product.id}`}
-                    name="quantity"
-                    value={selectedQuantity}
-                    min="1"
-                    max={product.quantity}
-                    onChange={handleQuantityChange}
-                    className="quantity-input-pdp"
-                    disabled={product.quantity === 0}
-                  />
-                </div>
-                <button
-                  className="button-mono primary-button-mono add-to-cart-button-mono"
-                  onClick={handleAddToCartClick}
-                  disabled={
-                    selectedQuantity === 0 ||
-                    selectedQuantity > product.quantity
-                  }
-                >
-                  Adicionar ao Carrinho
-                </button>
-              </>
-            ) : (
-              <p className="out-of-stock-message-pdp">
-                Produto indisponível no momento.
-              </p>
+        </div>
+        <div className="product-info-mono">
+          <h1 className="product-title-mono">{product.name}</h1>
+          <p className="product-price-mono">
+            R$ {product.price ? product.price.toFixed(2).replace(".", ",") : '0,00'}
+          </p>
+          <p className="product-description-mono">{product.description}</p>
+          <div className="product-meta-mono">
+            <span>
+              <strong>Marca:</strong> {product.manufacturer}
+            </span>
+            <span>
+              <strong>Cor:</strong> {product.color}
+            </span>
+            <span>
+              <strong>Em estoque:</strong> {product.quantity} unidades
+            </span>
+          </div>
+          <div className="product-actions-mono">
+            <div className="quantity-selector-mono">
+              <button onClick={() => handleQuantityChange(-1)}>-</button>
+              <span>{quantity}</span>
+              <button onClick={() => handleQuantityChange(1)}>+</button>
+            </div>
+            <button
+              onClick={handleAddToCartClick}
+              className="add-to-cart-btn-mono"
+              disabled={product.quantity <= 0}
+            >
+              {product.quantity > 0 ? "Adicionar ao Carrinho" : "Fora de Estoque"}
+            </button>
+            {/* Elemento da mensagem de confirmação */}
+            {showConfirmation && (
+              <span className="confirmation-message-mono">Adicionado!</span>
             )}
           </div>
         </div>
-      </div>
+      </main>
     </div>
   );
 };

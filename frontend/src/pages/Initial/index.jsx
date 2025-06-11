@@ -5,6 +5,17 @@ import ProductDetailPage from "../Product";
 import CartView from "../Cart";
 import { getProducts, checkoutService } from "../../services/productService";
 
+// --- HELPER FUNCTION TO DERIVE PRODUCT TYPE ---
+const extractType = (productName) => {
+  if (!productName) return "Outros";
+  const lowerCaseName = productName.toLowerCase();
+  if (lowerCaseName.includes("fone") || lowerCaseName.includes("headset"))
+    return "Fones & Headsets";
+  if (lowerCaseName.includes("mouse")) return "Mouses";
+  if (lowerCaseName.includes("teclado")) return "Teclados";
+  return "Outros";
+};
+
 // --- COMPONENTES INTERNOS (ProductImage e ProductCard) ---
 const ProductImage = ({ src, alt, className = "" }) => {
   return (
@@ -29,7 +40,10 @@ const ProductCard = ({
   return (
     <div className={cardClass} onClick={handleCardClick}>
       <div className="product-image-wrapper">
-        <ProductImage src={product.imageUrls[0]} alt={product.name} />
+        <ProductImage
+          src={product.imageUrls && product.imageUrls[0]}
+          alt={product.name}
+        />
       </div>
       <p className="product-name">{product.name}</p>
       {showPrice && product.price && (
@@ -50,12 +64,15 @@ function App() {
   const [selectedProductId, setSelectedProductId] = useState(null);
   const [cartItems, setCartItems] = useState([]);
   const [isCartViewActive, setIsCartViewActive] = useState(false);
+  const [isCartAnimating, setIsCartAnimating] = useState(false);
 
   const fetchProducts = async () => {
     try {
       setIsLoading(true);
       const data = await getProducts();
-      setAllProducts(data);
+      // Sort products by ID descending to show newest first
+      const sortedData = data.sort((a, b) => b.id - a.id);
+      setAllProducts(sortedData);
       setError(null);
     } catch (err) {
       setError(
@@ -71,10 +88,10 @@ function App() {
     fetchProducts();
   }, []);
 
-  // --- LÓGICA PARA OS COMPONENTES DA PÁGINA (DESTAQUES, NOVIDADES, MARCAS) ---
+  // --- LÓGICA PARA OS COMPONENTES DA PÁGINA (DESTAQUES, NOVIDADES, FILTROS) ---
   const FEATURED_PRODUCTS_COUNT = 2;
   const [featuredCurrentIndex, setFeaturedCurrentIndex] = useState(0);
-  const featuredProductsData = allProducts.slice(0, 6);
+  const featuredProductsData = allProducts.slice(2, 8); // Products that are not the very newest
   const handleFeaturedNext = () =>
     setFeaturedCurrentIndex((prev) =>
       Math.min(
@@ -93,7 +110,7 @@ function App() {
 
   const NEW_ARRIVALS_COUNT = 4;
   const [newArrivalsCurrentIndex, setNewArrivalsCurrentIndex] = useState(0);
-  const newArrivalsData = allProducts.slice(2, 10);
+  const newArrivalsData = allProducts.slice(0, 8); // The 8 newest products
   const handleNewArrivalsNext = () =>
     setNewArrivalsCurrentIndex((prev) =>
       Math.min(
@@ -110,25 +127,46 @@ function App() {
     newArrivalsCurrentIndex + NEW_ARRIVALS_COUNT
   );
 
-  const ITEMS_PER_BRAND_PAGE = 3;
+  // --- LOGIC FOR COMBINED FILTERS ---
+  const ITEMS_PER_PAGE = 6;
   const brands = [...new Set(allProducts.map((p) => p.manufacturer))];
+  const colors = [...new Set(allProducts.map((p) => p.color).filter(Boolean))];
+  const types = [...new Set(allProducts.map((p) => extractType(p.name)))];
+
   const [activeBrandFilter, setActiveBrandFilter] = useState("All");
-  const [brandDisplayedCount, setBrandDisplayedCount] =
-    useState(ITEMS_PER_BRAND_PAGE);
-  const filteredByBrandProducts = allProducts.filter(
-    (p) => activeBrandFilter === "All" || p.manufacturer === activeBrandFilter
-  );
-  const displayedBrandProducts = filteredByBrandProducts.slice(
-    0,
-    brandDisplayedCount
-  );
-  const handleLoadMoreBrand = () =>
-    setBrandDisplayedCount((prev) =>
-      Math.min(prev + ITEMS_PER_BRAND_PAGE, filteredByBrandProducts.length)
+  const [activeColorFilter, setActiveColorFilter] = useState("All");
+  const [activeTypeFilter, setActiveTypeFilter] = useState("All");
+
+  const [displayedCount, setDisplayedCount] = useState(ITEMS_PER_PAGE);
+
+  const filteredProducts = allProducts.filter((p) => {
+    const brandMatch =
+      activeBrandFilter === "All" || p.manufacturer === activeBrandFilter;
+    const colorMatch =
+      activeColorFilter === "All" || p.color === activeColorFilter;
+    const typeMatch =
+      activeTypeFilter === "All" || extractType(p.name) === activeTypeFilter;
+    return brandMatch && colorMatch && typeMatch;
+  });
+
+  const displayedFilteredProducts = filteredProducts.slice(0, displayedCount);
+
+  const handleLoadMore = () =>
+    setDisplayedCount((prev) =>
+      Math.min(prev + ITEMS_PER_PAGE, filteredProducts.length)
     );
-  const handleBrandFilterClick = (brand) => {
-    setActiveBrandFilter(brand);
-    setBrandDisplayedCount(ITEMS_PER_BRAND_PAGE);
+
+  const handleFilterClick = (filterType, value) => {
+    if (filterType === "brand") setActiveBrandFilter(value);
+    if (filterType === "color") setActiveColorFilter(value);
+    if (filterType === "type") setActiveTypeFilter(value);
+    setDisplayedCount(ITEMS_PER_PAGE); // Reset count on new filter
+  };
+
+  const handleGoHome = () => {
+    setSelectedProductId(null);
+    setIsCartViewActive(false);
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   const handleProductClick = (productId) => {
@@ -152,6 +190,10 @@ function App() {
   const handleAddToCart = (productId, quantityToAdd) => {
     const productToAdd = allProducts.find((p) => p.id === productId);
     if (!productToAdd) return;
+
+    // Trigger cart animation
+    setIsCartAnimating(true);
+    setTimeout(() => setIsCartAnimating(false), 820); // Duration of the animation
 
     setCartItems((prevItems) => {
       const existingItem = prevItems.find((item) => item.id === productId);
@@ -188,9 +230,10 @@ function App() {
         ];
       }
     });
-    if (!isCartViewActive) {
-      setIsCartViewActive(true);
-    }
+    // Optional: automatically open cart on add
+    // if (!isCartViewActive) {
+    //   setIsCartViewActive(true);
+    // }
   };
 
   const handleRemoveFromCart = (productId) => {
@@ -220,26 +263,18 @@ function App() {
       return;
     }
     try {
-      // Chama o serviço de checkout
       await checkoutService(cartItems, allProducts);
-
       alert("Compra realizada com sucesso!");
-
-      // Limpa o carrinho
       setCartItems([]);
-
-      // Esconde a visualização do carrinho
       setIsCartViewActive(false);
-
-      // Recarrega os produtos do servidor para obter as quantidades atualizadas
-      await fetchProducts();
+      await fetchProducts(); // Refresh products to get updated stock
     } catch (error) {
       alert(`Erro ao processar a compra: ${error.message}`);
     }
   };
 
-  const handleScroll = () => {
-    const element = document.getElementById("viewAll");
+  const handleScrollToFilters = () => {
+    const element = document.getElementById("filters");
     if (element) {
       element.scrollIntoView({ behavior: "smooth" });
     }
@@ -266,22 +301,23 @@ function App() {
       <div className="app-wrapper-monochrome">
         <header className="header-mono">
           <nav className="main-nav-mono">
-            <Link to="/">HOME</Link>
+            <Link to="/" onClick={handleGoHome}>
+              HOME
+            </Link>
             <Link to="/ProductRegistration">CADASTRAR PRODUTO</Link>
             <Link to="/ProductEdit">EDITAR PRODUTO</Link>
           </nav>
           <div
             className="logo-mono central-logo-mono"
-            onClick={handleBackToStore}
+            onClick={handleGoHome}
             style={{ cursor: "pointer" }}
           >
             TechNova
           </div>
           <div className="header-icons-mono">
-            <span>&#128269;</span>
-            <span>CONTA</span>
             <span
               onClick={toggleCartView}
+              className={isCartAnimating ? "cart-animation" : ""}
               style={{
                 cursor: "pointer",
                 fontWeight: cartItems.length > 0 ? "bold" : "normal",
@@ -309,22 +345,23 @@ function App() {
     <div className="app-wrapper-monochrome">
       <header className="header-mono">
         <nav className="main-nav-mono">
-          <Link to="/">HOME</Link>
+          <Link to="/" onClick={handleGoHome}>
+            HOME
+          </Link>
           <Link to="/ProductRegistration">CADASTRAR PRODUTO</Link>
           <Link to="/ProductEdit">EDITAR PRODUTO</Link>
         </nav>
         <div
           className="logo-mono central-logo-mono"
-          onClick={handleBackToStore}
+          onClick={handleGoHome}
           style={{ cursor: "pointer" }}
         >
           TechNova
         </div>
         <div className="header-icons-mono">
-          <span>&#128269;</span>
-          <span>CONTA</span>
           <span
             onClick={toggleCartView}
+            className={isCartAnimating ? "cart-animation" : ""}
             style={{
               cursor: "pointer",
               fontWeight: cartItems.length > 0 ? "bold" : "normal",
@@ -354,7 +391,7 @@ function App() {
               </p>
               <div className="collection-actions">
                 <button
-                  onClick={handleScroll}
+                  onClick={handleScrollToFilters}
                   className="button-mono primary-button-mono"
                 >
                   VER TODOS
@@ -432,41 +469,118 @@ function App() {
             </div>
           </section>
 
-          <section id={"viewAll"} className="section-mono xiv-collections-mono">
+          <section id={"filters"} className="section-mono xiv-collections-mono">
             <div className="section-header-mono">
-              <h3>Navegue por Marcas</h3>
-              <div className="collection-filters-mono">
-                <a
-                  href="#"
-                  className={
-                    activeBrandFilter === "All" ? "active-filter-mono" : ""
-                  }
-                  onClick={(e) => {
-                    e.preventDefault();
-                    handleBrandFilterClick("All");
-                  }}
-                >
-                  Todas
-                </a>
-                {brands.map((brand) => (
+              <h3>Navegue por...</h3>
+            </div>
+
+            {/* -- FILTERS CONTAINER -- */}
+            <div className="filters-main-container-mono">
+              {/* Brand Filter */}
+              <div className="filter-group-mono">
+                <h4>Marca</h4>
+                <div className="collection-filters-mono">
                   <a
-                    key={brand}
                     href="#"
                     className={
-                      activeBrandFilter === brand ? "active-filter-mono" : ""
+                      activeBrandFilter === "All" ? "active-filter-mono" : ""
                     }
                     onClick={(e) => {
                       e.preventDefault();
-                      handleBrandFilterClick(brand);
+                      handleFilterClick("brand", "All");
                     }}
                   >
-                    {brand}
+                    Todas
                   </a>
-                ))}
+                  {brands.map((brand) => (
+                    <a
+                      key={brand}
+                      href="#"
+                      className={
+                        activeBrandFilter === brand ? "active-filter-mono" : ""
+                      }
+                      onClick={(e) => {
+                        e.preventDefault();
+                        handleFilterClick("brand", brand);
+                      }}
+                    >
+                      {brand}
+                    </a>
+                  ))}
+                </div>
+              </div>
+
+              {/* Color Filter */}
+              <div className="filter-group-mono">
+                <h4>Cor</h4>
+                <div className="collection-filters-mono">
+                  <a
+                    href="#"
+                    className={
+                      activeColorFilter === "All" ? "active-filter-mono" : ""
+                    }
+                    onClick={(e) => {
+                      e.preventDefault();
+                      handleFilterClick("color", "All");
+                    }}
+                  >
+                    Todas
+                  </a>
+                  {colors.map((color) => (
+                    <a
+                      key={color}
+                      href="#"
+                      className={
+                        activeColorFilter === color ? "active-filter-mono" : ""
+                      }
+                      onClick={(e) => {
+                        e.preventDefault();
+                        handleFilterClick("color", color);
+                      }}
+                    >
+                      {color}
+                    </a>
+                  ))}
+                </div>
+              </div>
+
+              {/* Type Filter */}
+              <div className="filter-group-mono">
+                <h4>Tipo</h4>
+                <div className="collection-filters-mono">
+                  <a
+                    href="#"
+                    className={
+                      activeTypeFilter === "All" ? "active-filter-mono" : ""
+                    }
+                    onClick={(e) => {
+                      e.preventDefault();
+                      handleFilterClick("type", "All");
+                    }}
+                  >
+                    Todos
+                  </a>
+                  {types.map((type) => (
+                    <a
+                      key={type}
+                      href="#"
+                      className={
+                        activeTypeFilter === type ? "active-filter-mono" : ""
+                      }
+                      onClick={(e) => {
+                        e.preventDefault();
+                        handleFilterClick("type", type);
+                      }}
+                    >
+                      {type}
+                    </a>
+                  ))}
+                </div>
               </div>
             </div>
+
             <div className="main-product-grid-mono">
-              {displayedBrandProducts.map((product) => (
+              {displayedFilteredProducts.map((product) => (
                 <ProductCard
                   key={product.id}
                   product={product}
@@ -474,11 +588,11 @@ function App() {
                 />
               ))}
             </div>
-            {brandDisplayedCount < filteredByBrandProducts.length && (
+            {displayedCount < filteredProducts.length && (
               <div className="load-more-container-mono">
                 <button
                   className="button-mono secondary-button-mono"
-                  onClick={handleLoadMoreBrand}
+                  onClick={handleLoadMore}
                 >
                   CARREGAR MAIS
                 </button>

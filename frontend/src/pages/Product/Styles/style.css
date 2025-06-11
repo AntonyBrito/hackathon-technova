@@ -1,333 +1,261 @@
-/* src/pages/Product.css */
-
-/* Estilos para o container principal da Página de Detalhes do Produto (PDP) */
 .product-detail-page-mono {
-  padding: 30px 20px; /* Padding geral para a página de detalhes */
-  max-width: 1200px; /* Largura máxima do conteúdo */
-  margin: 0 auto; /* Centraliza na tela */
+  font-family: "Inter", sans-serif;
+  background-color: #fff;
+  color: #1a1a1a;
 }
 
-/* Botão de Voltar específico da PDP (reutiliza .button-mono para aparência base) */
-.product-detail-page-mono .back-button-mono {
-  /* Mantém especificidade para caso .back-button-mono seja usado em outros contextos */
-  margin-bottom: 25px;
-  background-color: #f0f0f0; /* Pode ser levemente diferente ou herdar totalmente */
-  border-color: #cccccc;
-  font-size: 0.85rem;
-  padding: 8px 15px;
-}
-.product-detail-page-mono .back-button-mono:hover {
-  background-color: #e0e0e0;
-  color: #1f1f1f;
-}
-
-/* Layout principal da PDP */
-.product-detail-content-mono {
-  display: grid;
-  grid-template-columns: 1fr; /* Default para mobile */
-  gap: 30px;
-}
-
-/* Layout para telas maiores */
-@media (min-width: 769px) {
-  .product-detail-content-mono {
-    grid-template-columns: minmax(300px, 1.2fr) 1.8fr; /* Coluna da imagem e coluna das infos */
-    gap: 40px;
-  }
-}
-
-/* Seção de Imagens da PDP */
-.product-detail-images-mono {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.main-image-container-pdp {
-  position: relative;
-  width: 100%;
-  max-width: 480px; /* Limita tamanho da imagem principal */
-  margin-bottom: 15px;
-  border: 1px solid #e0e0e0; /* Borda sutil como nos cards */
-  border-radius: 6px; /* Consistente com os cards */
-  overflow: hidden;
-  background-color: #f9f9f9; /* Fundo de placeholder */
-}
-
-.main-product-image-mono {
-  /* Imagem principal na PDP */
-  display: block;
-  width: 100%;
-  height: auto;
-  aspect-ratio: 4 / 3.5; /* Proporção da imagem */
-  object-fit: contain; /* 'contain' para ver toda a imagem, 'cover' para preencher e cortar */
-}
-
-.pdp-image-nav-arrows {
-  position: absolute;
-  top: 50%;
-  left: 5px;
-  right: 5px;
-  transform: translateY(-50%);
+/* Header Simplificado para a Página de Produto */
+.product-detail-page-mono .header-mono {
   display: flex;
   justify-content: space-between;
-  pointer-events: none;
-}
-
-.pdp-image-nav-arrows span {
-  background-color: rgba(
-    31,
-    31,
-    31,
-    0.4
-  ); /* Usa cor primária escura com transparência */
-  color: white;
-  padding: 10px;
-  border-radius: 50%;
-  cursor: pointer;
-  font-size: 1.2rem;
-  line-height: 1;
-  user-select: none;
-  transition: background-color 0.2s ease;
-  pointer-events: all;
-  display: flex;
   align-items: center;
-  justify-content: center;
-  width: 36px; /* Tamanho fixo para as setas */
-  height: 36px;
+  padding: 20px 40px;
+  border-bottom: 1px solid #f0f0f0;
+  background-color: #fff;
+  position: sticky;
+  top: 0;
+  z-index: 999;
 }
-.pdp-image-nav-arrows span:hover {
-  background-color: rgba(0, 0, 0, 0.7); /* Mais escuro no hover */
+.product-detail-page-mono .header-mono .main-nav-mono a {
+  text-decoration: none;
+  color: #555;
+  font-weight: 500;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+}
+.product-detail-page-mono .header-mono .central-logo-mono {
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: #111;
+}
+.product-detail-page-mono .header-mono .header-icons-mono {
+    width: 150px; /* Apenas para balancear o header */
 }
 
-.thumbnail-images-pdp {
+
+/* Main Content */
+.product-main-content-mono {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 50px;
+  padding: 50px 40px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Galeria de Imagens */
+.product-gallery-mono {
   display: flex;
-  gap: 10px;
-  justify-content: center;
-  flex-wrap: wrap;
-  margin-top: 10px;
+  flex-direction: column;
+  gap: 15px;
 }
 
-.thumbnail-images-pdp img {
-  width: 65px;
-  height: 50px; /* Mantendo proporção similar à principal */
+.product-main-image-mono {
+  width: 100%;
+  border: 1px solid #f0f0f0;
+  border-radius: 8px;
+  overflow: hidden;
+  background-color: #f9f9f9;
+}
+
+.product-main-image-mono img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 4/3;
   object-fit: cover;
-  border: 2px solid #e0e0e0; /* Borda sutil */
-  border-radius: 4px; /* Bordas arredondadas consistentes */
-  cursor: pointer;
-  opacity: 0.6;
-  transition: opacity 0.2s ease, border-color 0.2s ease;
-}
-.thumbnail-images-pdp img:hover {
-  opacity: 1;
-  border-color: #888888; /* Cor de hover sutil */
-}
-.thumbnail-images-pdp img.active-thumbnail-pdp {
-  opacity: 1;
-  border-color: #1f1f1f; /* Cor primária escura para thumbnail ativa */
 }
 
-/* Seção de Informações do Produto na PDP */
-.product-detail-info-mono {
+.product-thumbnails-mono {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+
+.product-thumbnails-mono img {
+  width: 100%;
+  border: 2px solid #eee;
+  border-radius: 4px;
+  cursor: pointer;
+  opacity: 0.7;
+  transition: opacity 0.2s ease, border-color 0.2s ease;
+  aspect-ratio: 1/1;
+  object-fit: cover;
+}
+
+.product-thumbnails-mono img:hover {
+  opacity: 1;
+}
+
+.product-thumbnails-mono img.active-thumbnail {
+  border-color: #1a1a1a;
+  opacity: 1;
+}
+
+/* Informações do Produto */
+.product-info-mono {
   display: flex;
   flex-direction: column;
 }
 
-.product-detail-info-mono h2 {
-  font-size: 2rem; /* Tamanho do título do produto */
-  color: #1a1a1a; /* Cor escura para o título, consistente com h2 globais */
-  margin-top: 0;
-  margin-bottom: 10px;
-  text-transform: none; /* Sem uppercase para nome de produto */
-  letter-spacing: normal; /* Sem letter-spacing excessivo */
-  font-weight: 700; /* Peso da fonte como nos títulos de seção */
+.product-title-mono {
+  font-size: 2.2rem;
+  font-weight: 700;
+  margin: 0 0 10px 0;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
 }
 
-.product-detail-price-mono {
-  font-size: 1.9rem; /* Preço destacado */
-  font-weight: 700; /* Bem destacado */
-  color: #000000; /* Preto para o preço, como nos cards */
+.product-price-mono {
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: #333;
   margin-bottom: 20px;
 }
 
-.product-detail-manufacturer-mono,
-.product-detail-color-mono,
-.product-detail-stock-mono {
-  font-size: 0.9rem; /* Texto informativo */
-  color: #4d4d4d; /* Cor de texto secundário */
-  margin-bottom: 8px;
-  line-height: 1.5;
-}
-.product-detail-stock-mono {
-  font-weight: 500; /* Leve destaque para o estoque */
-  color: #1f1f1f;
-}
-.product-detail-manufacturer-mono strong,
-.product-detail-color-mono strong {
-  font-weight: 600; /* Destaque para os rótulos */
-  color: #333333;
-}
-
-.product-detail-description-mono {
-  font-size: 0.9rem;
-  line-height: 1.6; /* Boa legibilidade para descrição */
-  color: #333333; /* Cor de texto principal */
-  margin-top: 15px;
+.product-description-mono {
+  font-size: 0.95rem;
+  line-height: 1.7;
+  color: #555;
   margin-bottom: 25px;
 }
-.product-detail-description-mono h4 {
-  /* Subtítulo para "Descrição do Produto" */
-  font-size: 1rem;
-  font-weight: 600;
-  color: #222222;
-  margin-bottom: 8px;
-  text-transform: none; /* Sem uppercase */
-}
-.product-detail-description-mono p {
-  margin-bottom: 0;
-}
 
-/* Ações do Produto (Quantidade, Adicionar ao Carrinho) na PDP */
-.product-actions-pdp {
-  margin-top: auto; /* Empurra para o final do flex container na coluna de info */
+.product-meta-mono {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 0.85rem;
+  color: #444;
+  margin-bottom: 30px;
+  border-top: 1px solid #f0f0f0;
   padding-top: 20px;
 }
 
-/* (Opcional) Seletor de quantidade - Mantém o estilo visual dos formulários, se houver */
-.quantity-selector-pdp {
-  margin-bottom: 20px;
+.product-meta-mono strong {
+  color: #1a1a1a;
+}
+
+/* Ações do Produto */
+.product-actions-mono {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 20px;
+  margin-top: 10px;
 }
-.quantity-selector-pdp label {
-  font-size: 0.9rem;
-  color: #333;
+
+.quantity-selector-mono {
+  display: flex;
+  align-items: center;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.quantity-selector-mono button {
+  background: #f5f5f5;
+  border: none;
+  width: 40px;
+  height: 40px;
+  font-size: 1.2rem;
+  cursor: pointer;
+  color: #555;
+}
+.quantity-selector-mono button:hover {
+    background-color: #e9e9e9;
+}
+
+.quantity-selector-mono span {
+  width: 50px;
+  text-align: center;
+  font-size: 1rem;
   font-weight: 500;
 }
-.quantity-selector-pdp input[type="number"] {
-  padding: 8px 10px;
-  width: 70px;
-  text-align: center;
-  border: 1px solid #cccccc; /* Borda sutil, como em outros inputs */
+
+.add-to-cart-btn-mono {
+  flex-grow: 1;
+  height: 42px;
+  background-color: #1a1a1a;
+  color: #fff;
+  border: none;
   border-radius: 4px;
-  font-size: 0.95rem;
-  /* Herda a fonte global */
-}
-
-/* Botão Adicionar ao Carrinho (reutiliza .button-mono.primary-button-mono para aparência base) */
-.add-to-cart-button-mono {
-  padding: 14px 28px; /* Pode ser um pouco maior que botões padrão */
-  font-size: 0.95rem;
-  width: 100%;
-  max-width: 350px;
-  /* A aparência (cores, hover) virá do .button-mono.primary-button-mono global */
-}
-
-.out-of-stock-message-pdp {
-  color: #d9534f; /* Vermelho para indisponível, tom de alerta */
-  font-weight: bold;
-  font-size: 1rem;
-  margin-top: 10px;
-  padding: 10px;
-  background-color: #f8d7da; /* Fundo claro para alerta */
-  border: 1px solid #f5c6cb; /* Borda sutil para alerta */
-  border-radius: 4px; /* Consistente */
-  text-align: center;
-}
-
-/* src/pages/Product.css ou style.css */
-
-/* ... outros estilos ... */
-
-.quantity-selector-pdp {
-  margin-bottom: 20px; /* Espaço antes do botão de adicionar ao carrinho */
-  display: flex;
-  align-items: center;
-  gap: 10px; /* Espaço entre o label e o input */
-}
-
-.quantity-selector-pdp label {
   font-size: 0.9rem;
-  color: #333; /* Cor consistente com outros labels */
-  font-weight: 500; /* Leve destaque */
+  font-weight: 600;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
 }
 
-.quantity-input-pdp {
-  /* Estilo para o input de quantidade */
-  padding: 8px 10px;
-  width: 70px; /* Largura ajustada para números pequenos */
-  text-align: center;
-  border: 1px solid #cccccc; /* Borda sutil, consistente com outros inputs */
-  border-radius: 4px; /* Bordas arredondadas */
-  font-size: 0.95rem;
-  /* Herda a fonte global do .app-wrapper-monochrome */
+.add-to-cart-btn-mono:hover:not(:disabled) {
+  background-color: #333;
 }
 
-.quantity-input-pdp:disabled {
-  background-color: #f0f0f0; /* Fundo diferente para indicar desabilitado */
+.add-to-cart-btn-mono:disabled {
+  background-color: #aaa;
   cursor: not-allowed;
 }
 
-/* Ajuste no product-actions-pdp para alinhar itens, se necessário */
-.product-actions-pdp {
-  /* margin-top: auto; /* Esta já deve existir para empurrar para baixo */
-  /* padding-top: 20px; /* Esta já deve existir */
-  display: flex; /* Para alinhar o seletor de quantidade e o botão */
-  flex-direction: column; /* Empilha verticalmente */
-  align-items: flex-start; /* Alinha à esquerda por padrão */
-  gap: 15px; /* Espaço entre o seletor de quantidade e o botão */
+
+/* --- NOVA ANIMAÇÃO DE CONFIRMAÇÃO --- */
+.confirmation-message-mono {
+  color: #27ae60; /* Verde para sucesso */
+  font-weight: 600;
+  font-size: 0.9rem;
+  /* Animação com nome 'fadeInOut', duração de 2s */
+  animation: fadeInOut 2s ease-in-out forwards;
 }
 
-/* Em telas menores, pode querer que o botão ocupe toda a largura */
+@keyframes fadeInOut {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  20% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  80% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+}
+
+
+/* Responsividade */
+@media (max-width: 900px) {
+  .product-main-content-mono {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+  .product-info-mono {
+      text-align: center;
+  }
+  .product-meta-mono {
+      align-items: center;
+  }
+  .product-actions-mono {
+      justify-content: center;
+  }
+}
+
 @media (max-width: 480px) {
-  .product-actions-pdp {
-    align-items: stretch; /* Faz o botão ocupar toda a largura disponível */
+    .product-detail-page-mono .header-mono {
+        padding: 15px 20px;
+        flex-direction: column;
+        gap: 10px;
+    }
+  .product-main-content-mono {
+    padding: 20px;
   }
-  .quantity-selector-pdp {
-    justify-content: space-between; /* Para o label e input se espaçarem melhor */
+  .product-title-mono {
+    font-size: 1.8rem;
   }
-  .add-to-cart-button-mono {
-    max-width: 100%; /* Garante que o botão se estique */
-  }
-}
-
-/* Responsividade específica para PDP */
-@media (max-width: 768px) {
-  .product-detail-page-mono {
-    padding: 20px 15px;
-  }
-  .product-detail-info-mono h2 {
-    font-size: 1.7rem;
-  }
-  .product-detail-price-mono {
-    font-size: 1.6rem;
-  }
-  .add-to-cart-button-mono {
-    font-size: 0.9rem;
-    padding: 12px 20px;
-    max-width: 100%; /* Ocupa toda largura em mobile */
-  }
-  .main-image-container-pdp {
-    max-width: none;
-  }
-}
-
-@media (max-width: 480px) {
-  .product-detail-info-mono h2 {
+  .product-price-mono {
     font-size: 1.5rem;
   }
-  .product-detail-price-mono {
-    font-size: 1.4rem;
-  }
-  .thumbnail-images-pdp img {
-    width: 55px;
-    height: 42px;
-  }
-  .pdp-image-nav-arrows span {
-    padding: 8px;
-    font-size: 1rem;
-    width: 30px; /* Menor em telas pequenas */
-    height: 30px;
+  .product-actions-mono {
+      flex-direction: column;
+      align-items: stretch;
   }
 }
