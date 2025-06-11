@@ -1,5 +1,6 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
+import Swal from 'sweetalert2';
 import ProductForm from "../../components/ProductForm";
 import { createProduct } from "../../services/productService";
 import "./Styles/style.css";
@@ -10,11 +11,35 @@ const ProductRegistrationPage = () => {
   const handleRegisterProduct = async (productData) => {
     try {
       const newProduct = await createProduct(productData);
-      alert(`Produto "${newProduct.name}" cadastrado com sucesso!`);
-      navigate("/"); // Redireciona para a home após o sucesso
+      await Swal.fire({
+        title: 'Sucesso!',
+        text: `Produto "${newProduct.name}" cadastrado com sucesso!`,
+        icon: 'success',
+        confirmButtonColor: '#1E1E1E',
+        confirmButtonText: 'OK',
+        background: '#FFFFFF',
+        customClass: {
+          title: 'swal-title',
+          popup: 'swal-popup',
+          confirmButton: 'swal-button'
+        }
+      });
+      navigate("/");
     } catch (error) {
       console.error("Erro ao cadastrar produto:", error);
-      alert(`Falha ao cadastrar o produto: ${error.message}`);
+      Swal.fire({
+        title: 'Erro!',
+        text: `Falha ao cadastrar o produto: ${error.message}`,
+        icon: 'error',
+        confirmButtonColor: '#1E1E1E',
+        confirmButtonText: 'Tentar Novamente',
+        background: '#FFFFFF',
+        customClass: {
+          title: 'swal-title',
+          popup: 'swal-popup',
+          confirmButton: 'swal-button'
+        }
+      });
     }
   };
 

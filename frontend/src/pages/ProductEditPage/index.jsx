@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import Swal from 'sweetalert2';
 import ProductForm from "../../components/ProductForm";
 import {
   getProducts,
@@ -45,28 +46,62 @@ const ProductEditListPage = () => {
     try {
       await updateProduct(updatedProductData.id, updatedProductData);
       setEditingProduct(null);
-      alert(`Produto "${updatedProductData.name}" atualizado com sucesso!`);
-      fetchProducts(); // Recarrega a lista de produtos
+      Swal.fire({
+        title: 'Sucesso!',
+        text: `Produto "${updatedProductData.name}" atualizado com sucesso!`,
+        icon: 'success',
+        confirmButtonColor: '#1E1E1E',
+        confirmButtonText: 'OK',
+        background: '#FFFFFF',
+      });
+      fetchProducts();
     } catch (err) {
-      alert(`Erro ao atualizar produto: ${err.message}`);
+      Swal.fire({
+        title: 'Erro!',
+        text: `Erro ao atualizar produto: ${err.message}`,
+        icon: 'error',
+        confirmButtonColor: '#1E1E1E',
+        confirmButtonText: 'Tentar Novamente',
+        background: '#FFFFFF',
+      });
     }
   };
 
   const handleDeleteProduct = async (productId, productName) => {
-    if (
-      window.confirm(
-        `Tem certeza que deseja remover o produto "${productName}"?`
-      )
-    ) {
+    const result = await Swal.fire({
+      title: 'Tem certeza?',
+      text: `Deseja realmente remover o produto "${productName}"? Esta ação não pode ser desfeita.`,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#5E5E5E',
+      cancelButtonColor: '#A3A3A3',
+      confirmButtonText: 'Sim, remover!',
+      cancelButtonText: 'Cancelar',
+      background: '#FFFFFF',
+    });
+
+    if (result.isConfirmed) {
       try {
         await deleteProduct(productId);
         if (editingProduct && editingProduct.id === productId) {
           setEditingProduct(null);
         }
-        alert(`Produto "${productName}" removido com sucesso.`);
-        fetchProducts(); // Recarrega a lista de produtos
+        Swal.fire({
+          title: 'Removido!',
+          text: `Produto "${productName}" foi removido com sucesso.`,
+          icon: 'success',
+          confirmButtonColor: '#1E1E1E',
+          background: '#FFFFFF',
+        });
+        fetchProducts();
       } catch (err) {
-        alert(`Erro ao remover produto: ${err.message}`);
+        Swal.fire({
+          title: 'Erro!',
+          text: `Erro ao remover produto: ${err.message}`,
+          icon: 'error',
+          confirmButtonColor: '#1E1E1E',
+          background: '#FFFFFF',
+        });
       }
     }
   };

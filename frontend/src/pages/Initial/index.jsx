@@ -251,15 +251,15 @@ function App() {
 
   const handleFinalizePurchase = async () => {
     const result = await Swal.fire({
-      title: 'Deseja finalizar a compra?',
-      text: "Esta ação atualizará o estoque dos produtos.",
-      icon: 'question',
-      showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Sim, finalizar!',
-      cancelButtonText: 'Cancelar'
-    });
+    title: 'Deseja finalizar a compra?',
+    text: "Esta ação atualizará o estoque dos produtos.",
+    icon: 'question',
+    showCancelButton: true,
+    confirmButtonColor: '#5E5E5E',
+    cancelButtonColor: '#A3A3A3',    
+    confirmButtonText: 'Sim, finalizar!',
+    cancelButtonText: 'Cancelar'
+});
 
     if (result.isConfirmed) {
       try {
