@@ -1,5 +1,5 @@
 .product-detail-page-mono {
-  font-family: "Inter", sans-serif;
+  /* A fonte "Inter" foi removida em uma correção anterior para manter a consistência */
   background-color: #fff;
   color: #1a1a1a;
 }
@@ -10,26 +10,51 @@
   justify-content: space-between;
   align-items: center;
   padding: 20px 40px;
-  border-bottom: 1px solid #f0f0f0;
+  /* ALTERAÇÃO 1: Usando a variável global para a cor da borda ser consistente. */
+  border-bottom: 1px solid var(--color-light-greyV1);
   background-color: #fff;
   position: sticky;
   top: 0;
   z-index: 999;
 }
+
+/* ALTERAÇÃO 2: Adicionando o posicionamento absoluto para o logo, igual na página inicial. */
+.product-detail-page-mono .header-mono .central-logo-mono {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: #111;
+}
+
 .product-detail-page-mono .header-mono .main-nav-mono a {
   text-decoration: none;
   color: #555;
   font-weight: 500;
   font-size: 0.8rem;
   text-transform: uppercase;
+  margin-right: 25px; /* Adicionado um espaçamento para consistência */
 }
-.product-detail-page-mono .header-mono .central-logo-mono {
-  font-size: 1.8rem;
-  font-weight: 800;
-  color: #111;
-}
+
 .product-detail-page-mono .header-mono .header-icons-mono {
-    width: 150px; /* Apenas para balancear o header */
+  display: flex; /* Adicionado para garantir o alinhamento dos ícones */
+  align-items: center; /* Adicionado para garantir o alinhamento dos ícones */
+  /* ALTERAÇÃO 3: Removendo a largura fixa que causava o espaçamento estranho. */
+  /* width: 150px; */
+}
+
+/* Adicionado estilo para os ícones, para ficar igual à home */
+.product-detail-page-mono .header-mono .header-icons-mono span {
+  margin-left: 20px;
+  cursor: pointer;
+  color: var(--color-dark-greyV2);
+  font-size: 0.8rem;
+  font-weight: 500;
+  text-transform: uppercase;
+}
+.product-detail-page-mono .header-mono .header-icons-mono span:hover {
+  color: var(--color-black);
 }
 
 
