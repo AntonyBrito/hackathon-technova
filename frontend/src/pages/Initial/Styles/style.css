@@ -1,18 +1,12 @@
-/* Estilos Globais Aplicados ao Wrapper da Página Específica */
 .app-wrapper-monochrome {
-  width: 100%; /* Ocupa toda a largura disponível */
+  width: 100%; 
   box-sizing: border-box;
-  /* A linha abaixo foi removida para usar a fonte global "Montserrat"
-  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-  */
-  background-color: var(--color-white); /* Fundo principal branco */
+  background-color: var(--color-white); 
   color: var(--color-black);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Tipografia */
 .app-wrapper-monochrome h2,
 .app-wrapper-monochrome h3,
 .app-wrapper-monochrome h4 {
@@ -39,7 +33,6 @@
   color: var(--color-dark-greyV3);
 }
 
-/* Animação do Carrinho */
 @keyframes shake {
   10%,
   90% {
@@ -64,7 +57,6 @@
   animation: shake 0.82s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
 }
 
-/* Botões */
 .app-wrapper-monochrome .button-mono {
   text-transform: uppercase;
   font-weight: 600;
@@ -95,7 +87,6 @@
   font-size: 0.75rem;
 }
 
-/* Navegação e Setas */
 .app-wrapper-monochrome .nav-arrows-mono {
   display: flex;
   align-items: center;
@@ -124,7 +115,6 @@
   background-color: var(--color-light-greyV2);
 }
 
-/* Estilo para o container da imagem do produto e a imagem em si */
 .app-wrapper-monochrome .product-image-container {
   width: 100%;
   position: relative;
@@ -147,14 +137,12 @@
   border: 1px solid var(--color-light-greyV2);
 }
 
-/* Header */
 .app-wrapper-monochrome .header-mono {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 20px 40px;
   border-bottom: 1px solid var(--color-light-greyV1);
-  /* Estilos para fixar o header */
   position: sticky;
   top: 0;
   left: 0;
@@ -202,7 +190,6 @@
   color: var(--color-black);
 }
 
-/* Seção Genérica */
 .app-wrapper-monochrome .section-mono {
   padding: 50px 40px;
   border-bottom: 1px solid var(--color-light-greyV1);
@@ -211,7 +198,6 @@
   border-bottom: none;
 }
 
-/* Produtos em Destaque */
 .app-wrapper-monochrome .new-collection-mono {
   display: grid;
   grid-template-columns: 1fr 1.5fr;
@@ -240,7 +226,6 @@
   gap: 20px;
 }
 
-/* Novidades */
 .app-wrapper-monochrome .section-header-mono {
   display: flex;
   justify-content: space-between;
@@ -263,7 +248,6 @@
   gap: 20px;
 }
 
-/* Product Card */
 .app-wrapper-monochrome .product-card {
   background-color: var(--color-white);
   border: 1px solid var(--color-light-greyV1);
@@ -309,7 +293,6 @@
   font-weight: 600;
 }
 
-/* Filtros */
 .app-wrapper-monochrome .filters-main-container-mono {
   display: flex;
   flex-direction: column;
@@ -363,7 +346,6 @@
   margin-top: 30px;
 }
 
-/* Rodapé */
 .app-wrapper-monochrome .footer-mono {
   padding: 50px 40px 30px 40px;
   background-color: var(--color-light-greyV2);
@@ -398,8 +380,6 @@
   letter-spacing: 0.05em;
 }
 
-
-/* Responsividade */
 @media (max-width: 1200px) {
   .app-wrapper-monochrome .new-collection-mono {
     grid-template-columns: 1fr;

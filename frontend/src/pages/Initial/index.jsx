@@ -7,7 +7,6 @@ import CartView from "../Cart";
 import Header from "../../components/Header"; 
 import { getProducts, checkoutService } from "../../services/productService";
 
-// --- HELPER FUNCTION TO DERIVE PRODUCT TYPE ---
 const extractType = (productName) => {
   if (!productName) return "Outros";
   const lowerCaseName = productName.toLowerCase();
@@ -18,7 +17,6 @@ const extractType = (productName) => {
   return "Outros";
 };
 
-// --- COMPONENTES INTERNOS (ProductImage e ProductCard) ---
 const ProductImage = ({ src, alt, className = "" }) => {
   return (
     <div className={`product-image-container ${className}`}>
@@ -57,7 +55,6 @@ const ProductCard = ({
   );
 };
 
-// --- COMPONENTE PRINCIPAL DA PÁGINA ---
 function App() {
   const [allProducts, setAllProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(true);

@@ -1,4 +1,3 @@
-/* Estilos para o Header - pode ser o mesmo do seu initial/style.css */
 .header-mono {
   display: flex;
   justify-content: space-between;
@@ -78,7 +77,6 @@
   }
 }
 
-/* Responsividade */
 @media (max-width: 768px) {
   .header-mono {
     flex-direction: column;

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import "../../pages/ProductRegistration/Styles/style.css"; // Reutilizando o CSS existente
+import "../../pages/ProductRegistration/Styles/style.css"; 
 
 const ProductForm = ({
   initialData,
