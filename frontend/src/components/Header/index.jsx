@@ -1,9 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import './Styles/style.css';
+import logo from '../../assets/logos/logo_sem_fundo.png';
 
 const Header = ({
-  cartItemCount = 0,
+  cartItemCount = 0,  
   isCartAnimating = false,
   onCartClick,
   onLogoClick,
@@ -34,7 +35,7 @@ const Header = ({
         onClick={handleLogoClick}
         style={{ cursor: 'pointer' }}
       >
-        TechNova
+        <img src={logo} alt="logo" style={{ width: '100px' }}/>
       </div>
       <div className="header-icons-mono">
         <span
