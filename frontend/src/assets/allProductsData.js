@@ -1,4 +1,4 @@
-export const allProductsData = [
+/*export const allProductsData = [
   // ... (Seus dados de produtos permanecem aqui) ...
   {
     id: "tech001",
@@ -182,3 +182,4 @@ export const allProductsData = [
   },
 ];
 // --- FIM DOS DADOS SIMULADOS ---
+*/

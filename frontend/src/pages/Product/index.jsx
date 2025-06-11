@@ -1,8 +1,5 @@
-// src/pages/Product.js
-import React, { useState, useEffect } from "react"; // Importe useEffect
-// Se você decidir ter um CSS específico para esta página no futuro, você pode importá-lo aqui:
-// import './Product.css'; // Se você criou este arquivo na etapa anterior
-import "./Styles/style.css"; // Ou o caminho correto para seu CSS global se Product.css não existir ou não cobrir tudo
+import React, { useState, useEffect } from "react";
+import "./Styles/style.css";
 
 const ProductDetailPage = ({ product, onAddToCart, onBack }) => {
   if (!product) {
@@ -20,47 +17,43 @@ const ProductDetailPage = ({ product, onAddToCart, onBack }) => {
   }
 
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const [selectedQuantity, setSelectedQuantity] = useState(1); // Estado para a quantidade
+  const [selectedQuantity, setSelectedQuantity] = useState(1);
 
-  // Efeito para resetar a quantidade para 1 quando o produto mudar ou se a quantidade em estoque for 0
   useEffect(() => {
-    if (product && product.quantidade > 0) {
-      setSelectedQuantity(1); // Reseta para 1 se houver estoque
+    if (product && product.quantity > 0) {
+      setSelectedQuantity(1);
     } else {
-      setSelectedQuantity(0); // Ou 0 se não houver estoque, para desabilitar o input
+      setSelectedQuantity(0);
     }
-  }, [product]); // Re-executa quando o 'product' prop mudar
+  }, [product]);
 
   const handleNextImage = () => {
     setCurrentImageIndex(
-      (prevIndex) => (prevIndex + 1) % product.imagens.length
+      (prevIndex) => (prevIndex + 1) % product.imageUrls.length
     );
   };
 
   const handlePrevImage = () => {
     setCurrentImageIndex(
       (prevIndex) =>
-        (prevIndex - 1 + product.imagens.length) % product.imagens.length
+        (prevIndex - 1 + product.imageUrls.length) % product.imageUrls.length
     );
   };
 
   const handleQuantityChange = (event) => {
     let newQuantity = parseInt(event.target.value, 10);
-
     if (isNaN(newQuantity) || newQuantity < 1) {
-      newQuantity = 1; // Garante que seja no mínimo 1
-    } else if (newQuantity > product.quantidade) {
-      newQuantity = product.quantidade; // Garante que não exceda o estoque
+      newQuantity = 1;
+    } else if (newQuantity > product.quantity) {
+      newQuantity = product.quantity;
     }
     setSelectedQuantity(newQuantity);
   };
 
   const handleAddToCartClick = () => {
-    if (selectedQuantity > 0 && selectedQuantity <= product.quantidade) {
+    if (selectedQuantity > 0 && selectedQuantity <= product.quantity) {
       onAddToCart(product.id, selectedQuantity);
     } else {
-      // Opcional: Adicionar um alerta ou feedback se a quantidade for inválida no momento do clique
-      // (embora o input deva prevenir isso na maioria dos casos)
       alert("Por favor, selecione uma quantidade válida.");
     }
   };
@@ -74,24 +67,27 @@ const ProductDetailPage = ({ product, onAddToCart, onBack }) => {
         <div className="product-detail-images-mono">
           <div className="main-image-container-pdp">
             <img
-              src={product.imagens[currentImageIndex]}
-              alt={`${product.nome} - Imagem ${currentImageIndex + 1}`}
+              src={
+                product.imageUrls[currentImageIndex] ||
+                "https://via.placeholder.com/480"
+              }
+              alt={`${product.name} - Imagem ${currentImageIndex + 1}`}
               className="main-product-image-mono"
             />
-            {product.imagens.length > 1 && (
+            {product.imageUrls.length > 1 && (
               <div className="pdp-image-nav-arrows">
                 <span onClick={handlePrevImage}>&lt;</span>
                 <span onClick={handleNextImage}>&gt;</span>
               </div>
             )}
           </div>
-          {product.imagens.length > 1 && (
+          {product.imageUrls.length > 1 && (
             <div className="thumbnail-images-pdp">
-              {product.imagens.map((img, index) => (
+              {product.imageUrls.map((img, index) => (
                 <img
                   key={index}
                   src={img}
-                  alt={`${product.nome} - Miniatura ${index + 1}`}
+                  alt={`${product.name} - Miniatura ${index + 1}`}
                   className={
                     index === currentImageIndex ? "active-thumbnail-pdp" : ""
                   }
@@ -102,32 +98,30 @@ const ProductDetailPage = ({ product, onAddToCart, onBack }) => {
           )}
         </div>
         <div className="product-detail-info-mono">
-          <h2>{product.nome}</h2>
+          <h2>{product.name}</h2>
           <p className="product-detail-price-mono">
-            R$ {product.preco.toFixed(2).replace(".", ",")}
+            R$ {product.price.toFixed(2).replace(".", ",")}
           </p>
           <p className="product-detail-manufacturer-mono">
-            <strong>Fabricante:</strong> {product.fabricante}
+            <strong>Fabricante:</strong> {product.manufacturer}
           </p>
           <p className="product-detail-color-mono">
-            <strong>Cor:</strong> {product.cor}
+            <strong>Cor:</strong> {product.color}
           </p>
           <p className="product-detail-stock-mono">
-            {product.quantidade > 0
-              ? `Em estoque: ${product.quantidade} unidades`
+            {product.quantity > 0
+              ? `Em estoque: ${product.quantity} unidades`
               : "Produto esgotado"}
           </p>
           <div className="product-detail-description-mono">
             <h4>Descrição do Produto:</h4>
-            <p>{product.textoDescritivo}</p>
+            <p>{product.description}</p>
           </div>
 
           <div className="product-actions-pdp">
-            {product.quantidade > 0 ? (
+            {product.quantity > 0 ? (
               <>
                 <div className="quantity-selector-pdp">
-                  {" "}
-                  {/* Adicionando o seletor de quantidade */}
                   <label htmlFor={`quantity-pdp-${product.id}`}>
                     Quantidade:
                   </label>
@@ -137,19 +131,19 @@ const ProductDetailPage = ({ product, onAddToCart, onBack }) => {
                     name="quantity"
                     value={selectedQuantity}
                     min="1"
-                    max={product.quantidade} // Define o máximo como a quantidade em estoque
+                    max={product.quantity}
                     onChange={handleQuantityChange}
-                    className="quantity-input-pdp" // Adicione uma classe para estilização se necessário
-                    disabled={product.quantidade === 0} // Desabilita se não houver estoque
+                    className="quantity-input-pdp"
+                    disabled={product.quantity === 0}
                   />
                 </div>
                 <button
                   className="button-mono primary-button-mono add-to-cart-button-mono"
-                  onClick={handleAddToCartClick} // Atualizado para usar a nova função
+                  onClick={handleAddToCartClick}
                   disabled={
                     selectedQuantity === 0 ||
-                    selectedQuantity > product.quantidade
-                  } // Desabilita se a quantidade for inválida
+                    selectedQuantity > product.quantity
+                  }
                 >
                   Adicionar ao Carrinho
                 </button>

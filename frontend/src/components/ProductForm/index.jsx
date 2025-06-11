@@ -1,9 +1,4 @@
-// src/components/ProductForm.js
 import React, { useState, useEffect } from "react";
-// Importe o CSS do formulário aqui, se ele for específico para o formulário
-// ou assuma que será estilizado globalmente ou pelo CSS da página que o usa.
-// Ex: import './ProductForm.css'; ou importe o ProductRegistrationPage.css se ele se aplicar bem.
-// Para este exemplo, vamos assumir que o ProductRegistrationPage.css é usado.
 import "../../pages/ProductRegistration/Styles/style.css"; // Reutilizando o CSS existente
 
 const ProductForm = ({
@@ -12,66 +7,63 @@ const ProductForm = ({
   submitButtonText,
   isEditMode = false,
 }) => {
-  const [nome, setNome] = useState("");
-  const [textoDescritivo, setTextoDescritivo] = useState("");
-  const [cor, setCor] = useState("");
-  const [fabricante, setFabricante] = useState("");
-  const [preco, setPreco] = useState("");
-  const [quantidade, setQuantidade] = useState("");
-  const [imagens, setImagens] = useState([""]);
-  const [id, setId] = useState(null); // Para manter o ID no modo de edição
+  const [name, setName] = useState("");
+  const [description, setDescription] = useState("");
+  const [color, setColor] = useState("");
+  const [manufacturer, setManufacturer] = useState("");
+  const [price, setPrice] = useState("");
+  const [quantity, setQuantity] = useState("");
+  const [imageUrls, setImageUrls] = useState([""]);
+  const [id, setId] = useState(null);
 
   useEffect(() => {
     if (initialData) {
       setId(initialData.id || null);
-      setNome(initialData.nome || "");
-      setTextoDescritivo(initialData.textoDescritivo || "");
-      setCor(initialData.cor || "");
-      setFabricante(initialData.fabricante || "");
-      setPreco(
-        initialData.preco !== undefined ? String(initialData.preco) : ""
+      setName(initialData.name || "");
+      setDescription(initialData.description || "");
+      setColor(initialData.color || "");
+      setManufacturer(initialData.manufacturer || "");
+      setPrice(
+        initialData.price !== undefined ? String(initialData.price) : ""
       );
-      setQuantidade(
-        initialData.quantidade !== undefined
-          ? String(initialData.quantidade)
-          : ""
+      setQuantity(
+        initialData.quantity !== undefined ? String(initialData.quantity) : ""
       );
-      setImagens(
-        initialData.imagens && initialData.imagens.length > 0
-          ? [...initialData.imagens]
+      setImageUrls(
+        initialData.imageUrls && initialData.imageUrls.length > 0
+          ? [...initialData.imageUrls]
           : [""]
       );
     } else {
-      // Reseta o formulário se não houver dados iniciais (modo de cadastro)
       setId(null);
-      setNome("");
-      setTextoDescritivo("");
-      setCor("");
-      setFabricante("");
-      setPreco("");
-      setQuantidade("");
-      setImagens([""]);
+      setName("");
+      setDescription("");
+      setColor("");
+      setManufacturer("");
+      setPrice("");
+      setQuantity("");
+      setImageUrls([""]);
     }
   }, [initialData]);
 
   const handleImageChange = (index, value) => {
-    const novasImagens = [...imagens];
-    novasImagens[index] = value;
-    setImagens(novasImagens);
+    const newImageUrls = [...imageUrls];
+    newImageUrls[index] = value;
+    setImageUrls(newImageUrls);
   };
 
   const handleAddImageField = () => {
-    setImagens([...imagens, ""]);
+    setImageUrls([...imageUrls, ""]);
   };
 
   const handleRemoveImageField = (index) => {
-    const novasImagens = imagens.filter((_, i) => i !== index);
-    setImagens(novasImagens.length > 0 ? novasImagens : [""]);
+    const newImageUrls = imageUrls.filter((_, i) => i !== index);
+    setImageUrls(newImageUrls.length > 0 ? newImageUrls : [""]);
   };
 
   const handleSubmitForm = (event) => {
     event.preventDefault();
-    if (!nome || !fabricante || !preco || !quantidade) {
+    if (!name || !manufacturer || !price || !quantity) {
       alert(
         "Por favor, preencha os campos obrigatórios: Nome, Fabricante, Preço e Quantidade."
       );
@@ -79,25 +71,24 @@ const ProductForm = ({
     }
 
     const productData = {
-      nome,
-      textoDescritivo,
-      cor,
-      fabricante,
-      preco: parseFloat(preco),
-      quantidade: parseInt(quantidade, 10),
-      imagens: imagens.filter((img) => img && img.trim() !== ""),
+      name,
+      description,
+      color,
+      manufacturer,
+      price: parseFloat(price),
+      quantity: parseInt(quantity, 10),
+      imageUrls: imageUrls.filter((img) => img && img.trim() !== ""),
     };
 
     if (isEditMode && id) {
-      productData.id = id; // Adiciona o ID se estiver no modo de edição
+      productData.id = id;
     }
 
-    onSubmit(productData); // Chama a função de submit passada (seja para criar ou atualizar)
+    onSubmit(productData);
   };
 
   return (
     <form onSubmit={handleSubmitForm} className="product-form-mono">
-      {/* ID do Produto (informativo no modo de edição, não editável) */}
       {isEditMode && id && (
         <div className="form-group-mono">
           <label>ID do Produto (Não editável)</label>
@@ -112,47 +103,47 @@ const ProductForm = ({
       )}
 
       <div className="form-group-mono">
-        <label htmlFor="form-nome">
+        <label htmlFor="form-name">
           Nome do Produto <span className="required-star">*</span>
         </label>
         <input
           type="text"
-          id="form-nome"
-          value={nome}
-          onChange={(e) => setNome(e.target.value)}
+          id="form-name"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
           required
         />
       </div>
 
       <div className="form-group-mono">
-        <label htmlFor="form-textoDescritivo">Descrição Detalhada</label>
+        <label htmlFor="form-description">Descrição Detalhada</label>
         <textarea
-          id="form-textoDescritivo"
-          value={textoDescritivo}
-          onChange={(e) => setTextoDescritivo(e.target.value)}
+          id="form-description"
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
           rows="4"
         />
       </div>
 
       <div className="form-row-mono">
         <div className="form-group-mono">
-          <label htmlFor="form-cor">Cor</label>
+          <label htmlFor="form-color">Cor</label>
           <input
             type="text"
-            id="form-cor"
-            value={cor}
-            onChange={(e) => setCor(e.target.value)}
+            id="form-color"
+            value={color}
+            onChange={(e) => setColor(e.target.value)}
           />
         </div>
         <div className="form-group-mono">
-          <label htmlFor="form-fabricante">
+          <label htmlFor="form-manufacturer">
             Fabricante <span className="required-star">*</span>
           </label>
           <input
             type="text"
-            id="form-fabricante"
-            value={fabricante}
-            onChange={(e) => setFabricante(e.target.value)}
+            id="form-manufacturer"
+            value={manufacturer}
+            onChange={(e) => setManufacturer(e.target.value)}
             required
           />
         </div>
@@ -160,28 +151,28 @@ const ProductForm = ({
 
       <div className="form-row-mono">
         <div className="form-group-mono">
-          <label htmlFor="form-preco">
+          <label htmlFor="form-price">
             Preço (R$) <span className="required-star">*</span>
           </label>
           <input
             type="number"
-            id="form-preco"
-            value={preco}
-            onChange={(e) => setPreco(e.target.value)}
+            id="form-price"
+            value={price}
+            onChange={(e) => setPrice(e.target.value)}
             step="0.01"
             min="0"
             required
           />
         </div>
         <div className="form-group-mono">
-          <label htmlFor="form-quantidade">
+          <label htmlFor="form-quantity">
             Quantidade em Estoque <span className="required-star">*</span>
           </label>
           <input
             type="number"
-            id="form-quantidade"
-            value={quantidade}
-            onChange={(e) => setQuantidade(e.target.value)}
+            id="form-quantity"
+            value={quantity}
+            onChange={(e) => setQuantity(e.target.value)}
             min="0"
             required
           />
@@ -190,7 +181,7 @@ const ProductForm = ({
 
       <div className="form-group-mono image-urls-group-mono">
         <label>URLs das Imagens</label>
-        {imagens.map((imgUrl, index) => (
+        {imageUrls.map((imgUrl, index) => (
           <div key={index} className="image-url-field-mono">
             <input
               type="url"
@@ -198,8 +189,8 @@ const ProductForm = ({
               value={imgUrl}
               onChange={(e) => handleImageChange(index, e.target.value)}
             />
-            {(imagens.length > 1 ||
-              (imagens.length === 1 && imagens[0] !== "")) && (
+            {(imageUrls.length > 1 ||
+              (imageUrls.length === 1 && imageUrls[0] !== "")) && (
               <button
                 type="button"
                 onClick={() => handleRemoveImageField(index)}

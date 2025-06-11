@@ -25,9 +25,9 @@ public class ProductService {
 
     @Transactional(readOnly = true)
     public ProductDTO getProductById(Long id) {
-        Product product = productRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Product not found with id: " + id));
-        return convertToDTO(product);
+        return productRepository.findById(id)
+                .map(this::convertToDTO)
+                .orElseThrow(() -> new RuntimeException("Product not found"));
     }
 
     @Transactional
@@ -39,8 +39,12 @@ public class ProductService {
 
     @Transactional
     public ProductDTO updateProduct(Long id, ProductDTO productDTO) {
+        if (productDTO.getQuantity() < 0) {
+            throw new IllegalArgumentException("A quantidade do produto não pode ser negativa.");
+        }
+
         Product existingProduct = productRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Product not found with id: " + id));
+                .orElseThrow(() -> new RuntimeException("Product not found for update"));
 
         existingProduct.setName(productDTO.getName());
         existingProduct.setDescription(productDTO.getDescription());
@@ -57,7 +61,7 @@ public class ProductService {
     @Transactional
     public void deleteProduct(Long id) {
         if (!productRepository.existsById(id)) {
-            throw new RuntimeException("Product not found with id: " + id);
+            throw new RuntimeException("Product not found for deletion");
         }
         productRepository.deleteById(id);
     }
@@ -75,15 +79,15 @@ public class ProductService {
         return dto;
     }
 
-    private Product convertToEntity(ProductDTO dto) {
+    private Product convertToEntity(ProductDTO productDTO) {
         Product product = new Product();
-        product.setName(dto.getName());
-        product.setDescription(dto.getDescription());
-        product.setColor(dto.getColor());
-        product.setManufacturer(dto.getManufacturer());
-        product.setPrice(dto.getPrice());
-        product.setQuantity(dto.getQuantity());
-        product.setImageUrls(dto.getImageUrls());
+        product.setName(productDTO.getName());
+        product.setDescription(productDTO.getDescription());
+        product.setColor(productDTO.getColor());
+        product.setManufacturer(productDTO.getManufacturer());
+        product.setPrice(productDTO.getPrice());
+        product.setQuantity(productDTO.getQuantity());
+        product.setImageUrls(productDTO.getImageUrls());
         return product;
     }
 }
