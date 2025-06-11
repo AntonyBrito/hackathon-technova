@@ -12,3 +12,56 @@
   --color-dark-greyV3: #1E1E1E;
   --color-black: #000000;
 }
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box; /* Garante que padding e border não alterem a largura final dos elementos */
+  margin: 0;
+  padding: 0;
+}
+
+/* Estilos para o Corpo da Página */
+body {
+  font-family: "Montserrat", sans-serif; /* Define a fonte padrão como Montserrat */
+  -webkit-font-smoothing: antialiased; /* Melhora a renderização da fonte em navegadores WebKit */
+  -moz-osx-font-smoothing: grayscale; /* Melhora a renderização da fonte no Firefox para macOS */
+  background-color: var(
+    --color-white
+  ); /* Define a cor de fundo padrão como branco */
+  color: var(
+    --color-black
+  ); /* Define a cor do texto padrão como preto */
+}
+
+body::-webkit-scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
+}
+
+/* Estilos para Links */
+a {
+  color: inherit; /* Faz com que os links herdem a cor do elemento pai */
+  text-decoration: none; /* Remove o sublinhado padrão dos links */
+}
+
+/* Estilos para Listas */
+ul {
+  list-style: none; /* Remove os marcadores padrão das listas não ordenadas */
+}
+
+/* Estilos para Botões */
+button {
+  cursor: pointer; /* Define o cursor como uma mão ao passar sobre botões */
+  border: none; /* Remove a borda padrão dos botões */
+  background: none; /* Remove o fundo padrão dos botões */
+  font-family: inherit; /* Faz com que os botões herdem a fonte do elemento pai */
+}
+
+/* Estilos para Imagens */
+img {
+  max-width: 100%; /* Garante que as imagens não ultrapassem a largura de seu contêiner */
+  height: auto; /* Mantém a proporção da imagem ao ajustar a largura */
+  display: block; /* Remove o espaço extra abaixo das imagens */
+}
