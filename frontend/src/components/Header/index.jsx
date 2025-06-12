@@ -1,10 +1,10 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import './Styles/style.css';
-import logo from '../../assets/logos/logo_sem_fundo.png';
+import React from "react";
+import { Link } from "react-router-dom";
+import "./Styles/style.css";
+import logo from "../../assets/logos/logo_sem_fundo.png";
 
 const Header = ({
-  cartItemCount = 0,  
+  cartItemCount = 0,
   isCartAnimating = false,
   onCartClick,
   onLogoClick,
@@ -27,23 +27,24 @@ const Header = ({
     <header className="header-mono">
       <nav className="main-nav-mono">
         <Link to="/">HOME</Link>
-        <Link to="/ProductRegistration">CADASTRAR PRODUTO</Link>
-        <Link to="/ProductEdit">EDITAR PRODUTO</Link>
+        <Link to="/ProductRegistration">CADASTRAR</Link>
+        <Link to="/ProductEdit">EDITAR</Link>
+        <Link to="/StockManagement">ESTOQUE</Link>
       </nav>
       <div
         className="logo-mono central-logo-mono"
         onClick={handleLogoClick}
-        style={{ cursor: 'pointer' }}
+        style={{ cursor: "pointer" }}
       >
-        <img src={logo} alt="logo" style={{ width: '100px' }}/>
+        <img src={logo} alt="logo" style={{ width: "100px" }} />
       </div>
       <div className="header-icons-mono">
         <span
           onClick={handleCartClick}
-          className={isCartAnimating ? 'cart-animation' : ''}
+          className={isCartAnimating ? "cart-animation" : ""}
           style={{
-            cursor: 'pointer',
-            fontWeight: cartItemCount > 0 ? 'bold' : 'normal',
+            cursor: "pointer",
+            fontWeight: cartItemCount > 0 ? "bold" : "normal",
           }}
         >
           CARRINHO ({cartItemCount})

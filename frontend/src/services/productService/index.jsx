@@ -78,30 +78,44 @@ export const deleteProduct = async (id) => {
   }
 };
 
-export const checkoutService = async (cartItems, allProducts) => {
-  const updatePromises = cartItems.map((item) => {
-    const productToUpdate = allProducts.find((p) => p.id === item.id);
-    if (!productToUpdate) {
-      throw new Error(`Produto com ID ${item.id} não encontrado.`);
-    }
-
-    const newQuantity = productToUpdate.quantity - item.quantity;
-    if (newQuantity < 0) {
-      throw new Error(`Estoque insuficiente para o produto "${item.name}".`);
-    }
-
-    const updatedProductData = {
-      ...productToUpdate,
-      quantity: newQuantity,
-    };
-
-    return updateProduct(item.id, updatedProductData);
-  });
-
+export const checkoutService = async (cartItems) => {
   try {
-    await Promise.all(updatePromises);
+    const response = await apiClient.post("/stock/checkout", cartItems);
+    return response.data;
   } catch (error) {
-    console.error("Erro durante o processo de checkout:", error);
-    throw new Error(`Falha ao finalizar a compra: ${error.message}`);
+    const errorMessage =
+      error.response?.data?.message ||
+      error.message ||
+      "Falha ao finalizar a compra";
+    console.error("Erro no checkoutService:", errorMessage);
+    throw new Error(errorMessage);
+  }
+};
+
+export const getStockSummary = async () => {
+  try {
+    const response = await apiClient.get("/stock/summary");
+    return response.data;
+  } catch (error) {
+    const errorMessage =
+      error.response?.data?.message ||
+      error.message ||
+      "Falha ao buscar o resumo do estoque";
+    console.error("Erro em getStockSummary:", errorMessage);
+    throw new Error(errorMessage);
+  }
+};
+
+export const getStockHistory = async () => {
+  try {
+    const response = await apiClient.get("/stock/history");
+    return response.data;
+  } catch (error) {
+    const errorMessage =
+      error.response?.data?.message ||
+      error.message ||
+      "Falha ao buscar o histórico do estoque";
+    console.error("Erro em getStockHistory:", errorMessage);
+    throw new Error(errorMessage);
   }
 };

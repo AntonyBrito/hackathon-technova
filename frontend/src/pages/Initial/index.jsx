@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import Swal from 'sweetalert2';
+import Swal from "sweetalert2";
 import "./Styles/style.css";
 import ProductDetailPage from "../Product";
 import CartView from "../Cart";
-import Header from "../../components/Header"; 
+import Header from "../../components/Header";
 import { getProducts, checkoutService } from "../../services/productService";
 
 const extractType = (productName) => {
@@ -251,33 +251,29 @@ function App() {
 
   const handleFinalizePurchase = async () => {
     const result = await Swal.fire({
-    title: 'Deseja finalizar a compra?',
-    text: "Esta ação atualizará o estoque dos produtos.",
-    icon: 'question',
-    showCancelButton: true,
-    confirmButtonColor: '#5E5E5E',
-    cancelButtonColor: '#A3A3A3',    
-    confirmButtonText: 'Sim, finalizar!',
-    cancelButtonText: 'Cancelar'
-});
+      title: "Deseja finalizar a compra?",
+      text: "Esta ação atualizará o estoque dos produtos.",
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonColor: "#5E5E5E",
+      cancelButtonColor: "#A3A3A3",
+      confirmButtonText: "Sim, finalizar!",
+      cancelButtonText: "Cancelar",
+    });
 
     if (result.isConfirmed) {
       try {
-        await checkoutService(cartItems, allProducts);
+        await checkoutService(cartItems);
         Swal.fire(
-          'Compra Realizada!',
-          'Sua compra foi processada com sucesso.',
-          'success'
+          "Compra Realizada!",
+          "Sua compra foi processada com sucesso.",
+          "success"
         );
         setCartItems([]);
         setIsCartViewActive(false);
         await fetchProducts();
       } catch (error) {
-        Swal.fire(
-          'Erro!',
-          `Ocorreu um problema: ${error.message}`,
-          'error'
-        );
+        Swal.fire("Erro!", `Ocorreu um problema: ${error.message}`, "error");
       }
     }
   };
@@ -314,10 +310,10 @@ function App() {
     return (
       <div className="app-wrapper-monochrome">
         <Header
-            cartItemCount={cartItemCount}
-            isCartAnimating={isCartAnimating}
-            onCartClick={toggleCartView}
-            onLogoClick={handleGoHome}
+          cartItemCount={cartItemCount}
+          isCartAnimating={isCartAnimating}
+          onCartClick={toggleCartView}
+          onLogoClick={handleGoHome}
         />
         <CartView
           cartItems={cartItems}
@@ -334,10 +330,10 @@ function App() {
   return (
     <div className="app-wrapper-monochrome">
       <Header
-          cartItemCount={cartItemCount}
-          isCartAnimating={isCartAnimating}
-          onCartClick={toggleCartView}
-          onLogoClick={handleGoHome}
+        cartItemCount={cartItemCount}
+        isCartAnimating={isCartAnimating}
+        onCartClick={toggleCartView}
+        onLogoClick={handleGoHome}
       />
 
       {isLoading && (
