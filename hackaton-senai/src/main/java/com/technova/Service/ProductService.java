@@ -1,21 +1,25 @@
 package com.technova.Service;
 
 import com.technova.DTO.ProductDTO;
+import com.technova.DTO.StockMovementDTO;
+import com.technova.DTO.StockSummaryDTO;
 import com.technova.Entity.Product;
 import com.technova.Entity.StockMovement;
 import com.technova.Repository.ProductRepository;
 import com.technova.Repository.StockMovementRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class ProductService {
+public class StockService {
 
     @Autowired
     private ProductRepository productRepository;
@@ -23,70 +27,80 @@ public class ProductService {
     @Autowired
     private StockMovementRepository stockMovementRepository;
 
+    private static final int LOW_STOCK_THRESHOLD = 5;
+
     @Transactional(readOnly = true)
-    public List<ProductDTO> getAllProducts() {
-        return productRepository.findAll()
-                .stream()
-                .map(this::convertToDto)
+    public StockSummaryDTO getStockSummary() {
+        List<Product> allProducts = productRepository.findAll();
+
+        BigDecimal totalInventoryValue = allProducts.stream()
+                .filter(p -> p.getPrice() != null && p.getQuantity() != null)
+                .map(p -> p.getPrice().multiply(new BigDecimal(p.getQuantity())))
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+        long totalUnits = allProducts.stream()
+                .filter(p -> p.getQuantity() != null)
+                .mapToLong(Product::getQuantity)
+                .sum();
+
+        List<ProductDTO> lowStockProducts = allProducts.stream()
+                .filter(p -> p.getQuantity() != null && p.getQuantity() < LOW_STOCK_THRESHOLD)
+                .map(this::convertProductToDto)
+                .collect(Collectors.toList());
+
+        StockSummaryDTO summary = new StockSummaryDTO();
+        summary.setTotalInventoryValue(totalInventoryValue);
+        summary.setTotalUnits(totalUnits);
+        summary.setLowStockProducts(lowStockProducts);
+
+        return summary;
+    }
+
+    @Transactional
+    public void processCheckout(List<ProductDTO> checkoutItems) {
+        for (ProductDTO item : checkoutItems) {
+            Product product = productRepository.findById(item.getId())
+                    .orElseThrow(() -> new RuntimeException("Produto não encontrado com id: " + item.getId()));
+
+            if (product.getQuantity() < item.getQuantity()) {
+                throw new RuntimeException("Estoque insuficiente para o produto: " + product.getName());
+            }
+
+            int newQuantity = product.getQuantity() - item.getQuantity();
+            product.setQuantity(newQuantity);
+            productRepository.save(product);
+
+            StockMovement movement = new StockMovement(
+                    product,
+                    -item.getQuantity(),
+                    StockMovement.MovementType.SAIDA_VENDA,
+                    LocalDateTime.now()
+            );
+            stockMovementRepository.save(movement);
+        }
+    }
+
+    @Transactional(readOnly = true)
+    public List<StockMovementDTO> getStockHistory() {
+        Pageable limit = PageRequest.of(0, 50);
+        List<StockMovement> movements = stockMovementRepository.findRecentHistory(limit);
+        return movements.stream()
+                .map(this::convertMovementToDto)
                 .collect(Collectors.toList());
     }
 
-    @Transactional(readOnly = true)
-    public ProductDTO getProductById(Long id) {
-        return productRepository.findById(id)
-                .map(this::convertToDto)
-                .orElseThrow(() -> new RuntimeException("Product not found with id: " + id));
+    private StockMovementDTO convertMovementToDto(StockMovement movement) {
+        StockMovementDTO dto = new StockMovementDTO();
+        dto.setId(movement.getId());
+        dto.setProductId(movement.getProduct().getId());
+        dto.setProductName(movement.getProduct().getName());
+        dto.setQuantityChange(movement.getQuantityChange());
+        dto.setType(movement.getType());
+        dto.setTimestamp(movement.getTimestamp());
+        return dto;
     }
 
-    @Transactional
-    public ProductDTO createProduct(ProductDTO productDTO) {
-        Product product = convertToEntity(productDTO);
-        Product savedProduct = productRepository.save(product);
-
-        StockMovement movement = new StockMovement(savedProduct, savedProduct.getQuantity(), StockMovement.MovementType.ENTRADA_INICIAL, LocalDateTime.now());
-        stockMovementRepository.save(movement);
-
-        return convertToDto(savedProduct);
-    }
-
-    @Transactional
-    public ProductDTO updateProduct(Long id, ProductDTO productDTO) {
-        if (productDTO.getQuantity() < 0) {
-            throw new IllegalArgumentException("A quantidade do produto não pode ser negativa.");
-        }
-
-        Product existingProduct = productRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Product not found for update with id: " + id));
-
-        int quantityChange = productDTO.getQuantity() - existingProduct.getQuantity();
-
-        existingProduct.setName(productDTO.getName());
-        existingProduct.setDescription(productDTO.getDescription());
-        existingProduct.setColor(productDTO.getColor());
-        existingProduct.setManufacturer(productDTO.getManufacturer());
-        existingProduct.setPrice(productDTO.getPrice());
-        existingProduct.setQuantity(productDTO.getQuantity());
-        existingProduct.setImageUrls(productDTO.getImageUrls());
-
-        Product updatedProduct = productRepository.save(existingProduct);
-
-        if (quantityChange != 0) {
-            StockMovement movement = new StockMovement(updatedProduct, quantityChange, StockMovement.MovementType.AJUSTE_MANUAL, LocalDateTime.now());
-            stockMovementRepository.save(movement);
-        }
-
-        return convertToDto(updatedProduct);
-    }
-
-    @Transactional
-    public void deleteProduct(Long id) {
-        if (!productRepository.existsById(id)) {
-            throw new RuntimeException("Product not found for deletion with id: " + id);
-        }
-        productRepository.deleteById(id);
-    }
-
-    private ProductDTO convertToDto(Product product) {
+    private ProductDTO convertProductToDto(Product product) {
         ProductDTO dto = new ProductDTO();
         dto.setId(product.getId());
         dto.setName(product.getName());
@@ -95,20 +109,7 @@ public class ProductService {
         dto.setManufacturer(product.getManufacturer());
         dto.setPrice(product.getPrice());
         dto.setQuantity(product.getQuantity());
-        dto.setImageUrls(new ArrayList<>(product.getImageUrls()));
+        dto.setImageUrls(product.getImageUrls());
         return dto;
-    }
-
-    private Product convertToEntity(ProductDTO productDTO) {
-        Product product = new Product();
-        product.setId(productDTO.getId());
-        product.setName(productDTO.getName());
-        product.setDescription(productDTO.getDescription());
-        product.setColor(productDTO.getColor());
-        product.setManufacturer(productDTO.getManufacturer());
-        product.setPrice(productDTO.getPrice());
-        product.setQuantity(productDTO.getQuantity());
-        product.setImageUrls(productDTO.getImageUrls());
-        return product;
     }
 }
