@@ -35,10 +35,8 @@ public class StockController {
             stockService.processCheckout(checkoutItems);
             return ResponseEntity.ok().build();
         } catch (IllegalArgumentException e) {
-            // Retorna uma resposta 400 Bad Request com a mensagem de erro
             return ResponseEntity.badRequest().body(e.getMessage());
         } catch (Exception e) {
-            // Retorna um erro genérico do servidor para outros problemas
             return ResponseEntity.internalServerError().body("Ocorreu um erro inesperado ao processar a compra.");
         }
     }

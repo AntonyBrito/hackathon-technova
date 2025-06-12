@@ -113,7 +113,6 @@ public class StockService {
         dto.setManufacturer(product.getManufacturer());
         dto.setPrice(product.getPrice());
         dto.setQuantity(product.getQuantity());
-        // Garante que a lista de URLs nunca seja nula
         dto.setImageUrls(product.getImageUrls() != null ? new ArrayList<>(product.getImageUrls()) : new ArrayList<>());
         return dto;
     }
