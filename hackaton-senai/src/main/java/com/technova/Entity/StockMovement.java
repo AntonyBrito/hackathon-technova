@@ -5,17 +5,16 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
 
-@Data
 @Entity
+@Data
 @NoArgsConstructor
-@Table(name = "stock_movement")
 public class StockMovement {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id", nullable = false)
     private Product product;
 
@@ -30,9 +29,9 @@ public class StockMovement {
     private LocalDateTime timestamp;
 
     public enum MovementType {
-        ENTRADA_INICIAL,
-        AJUSTE_MANUAL,
-        SAIDA_VENDA
+        ENTRADA_INICIAL, // Quando um produto é cadastrado pela primeira vez
+        AJUSTE_MANUAL,   // Quando o estoque é alterado manualmente (ex: edição)
+        SAIDA_VENDA      // Quando uma venda é finalizada
     }
 
     public StockMovement(Product product, Integer quantityChange, MovementType type, LocalDateTime timestamp) {

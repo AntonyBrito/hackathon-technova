@@ -19,21 +19,27 @@ public class StockController {
 
     @GetMapping("/summary")
     public ResponseEntity<StockSummaryDTO> getStockSummary() {
-        return ResponseEntity.ok(stockService.getStockSummary());
+        StockSummaryDTO summary = stockService.getStockSummary();
+        return ResponseEntity.ok(summary);
     }
 
     @GetMapping("/history")
     public ResponseEntity<List<StockMovementDTO>> getStockHistory() {
-        return ResponseEntity.ok(stockService.getStockHistory());
+        List<StockMovementDTO> history = stockService.getStockHistory();
+        return ResponseEntity.ok(history);
     }
 
     @PostMapping("/checkout")
-    public ResponseEntity<Void> checkout(@RequestBody List<ProductDTO> checkoutItems) {
+    public ResponseEntity<?> checkout(@RequestBody List<ProductDTO> checkoutItems) {
         try {
             stockService.processCheckout(checkoutItems);
             return ResponseEntity.ok().build();
+        } catch (IllegalArgumentException e) {
+            // Retorna uma resposta 400 Bad Request com a mensagem de erro
+            return ResponseEntity.badRequest().body(e.getMessage());
         } catch (Exception e) {
-            return ResponseEntity.badRequest().build();
+            // Retorna um erro genérico do servidor para outros problemas
+            return ResponseEntity.internalServerError().body("Ocorreu um erro inesperado ao processar a compra.");
         }
     }
 }
