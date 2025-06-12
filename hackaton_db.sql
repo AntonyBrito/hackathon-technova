@@ -1,5 +1,6 @@
 use hackathon_db;
 
+drop database hackathon_db;
 select * from product;
 
 INSERT INTO product (name, description, color, manufacturer, price, quantity)

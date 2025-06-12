@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -18,23 +19,24 @@ public class ProductService {
 
     @Transactional(readOnly = true)
     public List<ProductDTO> getAllProducts() {
-        return productRepository.findAll().stream()
-                .map(this::convertToDTO)
+        return productRepository.findAll()
+                .stream()
+                .map(this::convertToDto)
                 .collect(Collectors.toList());
     }
 
     @Transactional(readOnly = true)
     public ProductDTO getProductById(Long id) {
         return productRepository.findById(id)
-                .map(this::convertToDTO)
-                .orElseThrow(() -> new RuntimeException("Product not found"));
+                .map(this::convertToDto)
+                .orElseThrow(() -> new RuntimeException("Product not found with id: " + id));
     }
 
     @Transactional
     public ProductDTO createProduct(ProductDTO productDTO) {
         Product product = convertToEntity(productDTO);
         Product savedProduct = productRepository.save(product);
-        return convertToDTO(savedProduct);
+        return convertToDto(savedProduct);
     }
 
     @Transactional
@@ -44,7 +46,7 @@ public class ProductService {
         }
 
         Product existingProduct = productRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Product not found for update"));
+                .orElseThrow(() -> new RuntimeException("Product not found for update with id: " + id));
 
         existingProduct.setName(productDTO.getName());
         existingProduct.setDescription(productDTO.getDescription());
@@ -55,18 +57,18 @@ public class ProductService {
         existingProduct.setImageUrls(productDTO.getImageUrls());
 
         Product updatedProduct = productRepository.save(existingProduct);
-        return convertToDTO(updatedProduct);
+        return convertToDto(updatedProduct);
     }
 
     @Transactional
     public void deleteProduct(Long id) {
         if (!productRepository.existsById(id)) {
-            throw new RuntimeException("Product not found for deletion");
+            throw new RuntimeException("Product not found for deletion with id: " + id);
         }
         productRepository.deleteById(id);
     }
 
-    private ProductDTO convertToDTO(Product product) {
+    private ProductDTO convertToDto(Product product) {
         ProductDTO dto = new ProductDTO();
         dto.setId(product.getId());
         dto.setName(product.getName());
@@ -75,12 +77,13 @@ public class ProductService {
         dto.setManufacturer(product.getManufacturer());
         dto.setPrice(product.getPrice());
         dto.setQuantity(product.getQuantity());
-        dto.setImageUrls(product.getImageUrls());
+        dto.setImageUrls(new ArrayList<>(product.getImageUrls()));
         return dto;
     }
 
     private Product convertToEntity(ProductDTO productDTO) {
         Product product = new Product();
+        product.setId(productDTO.getId());
         product.setName(productDTO.getName());
         product.setDescription(productDTO.getDescription());
         product.setColor(productDTO.getColor());
